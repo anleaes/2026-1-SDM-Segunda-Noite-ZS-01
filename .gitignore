@@ -2,3 +2,5 @@ aplicativoCinema/__pycache__/*
 .env
 /apps/usuarios/__pycache__/*
 /apps/usuarios/migrations/*
+/apps/clientes/__pycache__/*
+/apps/clientes/migrations/*
