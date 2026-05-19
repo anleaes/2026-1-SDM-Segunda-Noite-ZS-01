@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from rest_framework import viewsets
 
+from rest_framework import viewsets
 from .models import Pedido
 from .serializers import PedidoSerializer
 
@@ -37,3 +38,6 @@ def detalhe_pedido(request, pedido_id):
         'status': pedido.status,
         'dataHora': pedido.dataHora
     })
+class PedidoViewSet(viewsets.ModelViewSet):
+    queryset = Pedido.objects.all()
+    serializer_class = PedidoSerializer
