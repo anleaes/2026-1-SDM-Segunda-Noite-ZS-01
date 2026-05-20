@@ -6,3 +6,5 @@ aplicativoCinema/__pycache__/*
 /apps/clientes/migrations/*
 /apps/administrador/__pycache__/*
 /apps/administrador/migrations/*
+/apps/generos/__pycache__/*
+/apps/generos/migrations/*
