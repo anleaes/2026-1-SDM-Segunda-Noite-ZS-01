@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'clientes.apps.ClientesConfig',
     'administrador.apps.AdministradorConfig',
     'generos.apps.GenerosConfig',
+    'salas.apps.SalasConfig',
 ]
 
 MIDDLEWARE = [
