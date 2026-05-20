@@ -3,3 +3,6 @@ from .models import Sala
 from rest_framework import viewsets
 from .serializer import SalaSerializer
 # Create your views here.
+class SalaViewSet(viewsets.ModelViewSet):
+    queryset = Sala.objects.all()
+    serializer_class = SalaSerializer
