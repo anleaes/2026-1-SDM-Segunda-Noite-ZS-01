@@ -8,3 +8,6 @@ http://127.0.0.1:8000/usuarios/login/
 
 Admin:
 http://127.0.0.1:8000/administrador/cadastrar/
+
+Cliente:
+http://127.0.0.1:8000/cliente/cadastrar/
