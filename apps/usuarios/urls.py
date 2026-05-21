@@ -4,9 +4,7 @@ from rest_framework import routers
 
 app_name = 'usuarios'
 
-router = routers.SimpleRouter()
-router.register('', views.UsuarioViewSet, basename='usuarios')
-
 urlpatterns = [
-    path('', include(router.urls) )
+    path('login/',  views.login,  name='login'),
+    path('logout/', views.logout, name='logout'),
 ]
