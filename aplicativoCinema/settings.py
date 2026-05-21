@@ -19,7 +19,18 @@ from decouple import config
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 APPS_DIR = os.path.join(BASE_DIR, 'apps') 
-sys.path.insert(0, APPS_DIR) 
+sys.path.insert(0, APPS_DIR)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_DIRS = [ 
+    os.path.join(BASE_DIR, 'staticfiles'), 
+]
+
+MEDIA_URL = '/media/' 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
+os.path.join(BASE_DIR, 'templates')
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -49,6 +60,7 @@ INSTALLED_APPS = [
     'administrador.apps.AdministradorConfig',
     'generos.apps.GenerosConfig',
     'salas.apps.SalasConfig',
+    'core.apps.CoreConfig', 
 ]
 
 MIDDLEWARE = [
@@ -66,7 +78,7 @@ ROOT_URLCONF = 'aplicativoCinema.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'template')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
