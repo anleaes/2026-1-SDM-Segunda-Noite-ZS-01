@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastrar Pedido{% endblock title %}
+
+{% block body %}
+<div class="form-page">
+    <div class="form-card">
+        <h1>Cadastro de Pedido</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <select name="status" required>
+                <option value="">Selecione o status</option>
+                <option value="criado">Criado</option>
+                <option value="cancelado">Cancelado</option>
+                <option value="finalizado">Finalizado</option>
+            </select>
+
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
+</div>
+{% endblock body %}
