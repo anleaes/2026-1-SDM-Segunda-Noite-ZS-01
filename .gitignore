@@ -14,3 +14,5 @@ aplicativoCinema/__pycache__/*
 /apps/core/migrations/*
 /apps/filmes/__pycache__/*
 /apps/filmes/migrations/*
+/apps/pedido/__pycache__/*
+/apps/pedido/migrations/*

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Administrador
 
 def cadastrar(request):
-    template_name = 'administrador/cadastrar.html'
+    template_name = 'admin/cadastrar.html'
     
     if request.method == 'POST':
         Administrador.objects.create(
