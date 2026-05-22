@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from .models import Pedido
 
@@ -10,4 +10,5 @@ def listar_pedidos(request):
 
 def detalhe_pedido(request, pedido_id):
     pedido = Pedido.objects.get(id=pedido_id)
+    pedido = get_object_or_404(Pedido, id=pedido_id)
     return HttpResponse(f'Pedido {pedido.id} - Status: {pedido.status}')
