@@ -1,0 +1,81 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/arquivo_com_estilos.css' %}">
+    <title>{% block title %}Nome do meu App{% endblock title %}</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .form-page {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-card {
+            width: 100%;
+            max-width: 380px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-card h1 {
+            margin: 0 0 18px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .form-card form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .form-card input,
+        .form-card button {
+            width: 100%;
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-size: 1rem;
+            border: 1px solid #d1d5db;
+            box-sizing: border-box;
+        }
+
+        .form-card input {
+            background: #fbfbfb;
+        }
+
+        .form-card button {
+            border: none;
+            background: #4b5563;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    {% block body %}
+    
+    {% endblock body %}
+    
+    <script src="{% static 'js/arquivo_com_javascript.js' %}"></script>
+</body>
+</html>

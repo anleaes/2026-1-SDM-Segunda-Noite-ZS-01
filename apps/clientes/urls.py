@@ -4,9 +4,6 @@ from rest_framework import routers
 
 app_name = 'clientes'
 
-router = routers.SimpleRouter()
-router.register('', views.ClientesViewSet, basename='clientes')
-
 urlpatterns = [
-    path('', include(router.urls) )
+    path('cadastrar/', views.cadastrar, name='cadastrar'),
 ]
