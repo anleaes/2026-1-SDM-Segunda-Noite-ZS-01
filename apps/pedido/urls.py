@@ -1,14 +1,14 @@
-from django.urls import path, include
+from django.urls import path
 from . import views
 from rest_framework.routers import DefaultRouter
 
 app_name = 'pedido'
 
 router = DefaultRouter()
-router.register(r'api', views.PedidoViewSet)
+router.register(r'api', views.PedidoViewSet, basename='pedido')
 
 urlpatterns = [
     path('cadastrar/', views.cadastrar, name='cadastrar'),
-
-    path('', include(router.urls)),
 ]
+
+urlpatterns += router.urls
