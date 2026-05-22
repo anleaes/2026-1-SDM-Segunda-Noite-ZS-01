@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from rest_framework import viewsets
 
 from .models import Pedido
-from .serializers import PedidoSerializer
+from .serializer import PedidoSerializer
 
 
 def cadastrar(request):
