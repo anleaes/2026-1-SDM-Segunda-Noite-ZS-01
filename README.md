@@ -18,7 +18,12 @@ MVT
 http://127.0.0.1:8000/clientes/cadastrar
 
 Admin:
+MVC
 http://localhost:8000/administrador/administrador/
 
 MVT:
 http://127.0.0.1:8000/administrador/cadastrar/
+
+Usuario
+MVC
+http://127.0.0.1:8000/usuarios/usuarios/
