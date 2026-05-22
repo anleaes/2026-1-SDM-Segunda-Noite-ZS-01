@@ -6,7 +6,7 @@ class Filme(models.Model):
     duracao = models.IntegerField('Duração (min)')
     classificacao = models.CharField('Classificação', max_length=50)
     cartaz = models.ImageField('Cartaz', upload_to='cartazes/', null=True, blank=True)
-    genero = models.ForeignKey(Genero, on_delete=models.SET_NULL, null=True)
+    genero = models.ForeignKey(Genero, on_delete=models.SET_NULL, null=True, related_name='filmes')
 
     class Meta:
         verbose_name = 'Filme'
