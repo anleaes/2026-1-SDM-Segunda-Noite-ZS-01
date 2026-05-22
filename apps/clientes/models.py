@@ -12,4 +12,4 @@ class Cliente(Usuario):
         ordering =['id']
 
     def __str__(self):
-        return super().__str__()
+        return self.nome

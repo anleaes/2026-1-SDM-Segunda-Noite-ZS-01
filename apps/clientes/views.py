@@ -1,5 +1,11 @@
 from django.shortcuts import render, redirect
 from .models import Cliente
+from .serializer import ClientesSerializer
+from rest_framework import viewsets
+
+class ClienteViewSet(viewsets.ModelViewSet):
+    queryset = Cliente.objects.all()
+    serializer_class = ClientesSerializer
 
 def cadastrar(request):
     template_name = 'clientes/cadastrar.html'
