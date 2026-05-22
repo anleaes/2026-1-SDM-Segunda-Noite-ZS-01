@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'salas.apps.SalasConfig',
     'core.apps.CoreConfig', 
     'filmes.apps.FilmesConfig',
+    'pedido.apps.PedidoConfig',
 ]
 
 MIDDLEWARE = [
