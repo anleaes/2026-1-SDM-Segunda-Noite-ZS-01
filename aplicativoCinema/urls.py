@@ -28,6 +28,7 @@ urlpatterns = [
     path('salas/', include('salas.urls', namespace='salas')),
     path('filmes/', include('filmes.urls', namespace='filmes')),
     path('pedido/', include('pedido.urls', namespace='pedido')),
+    path('sessoes/', include('sessoes.urls', namespace='sessoes')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
