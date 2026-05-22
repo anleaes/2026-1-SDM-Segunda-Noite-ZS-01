@@ -1,0 +1,130 @@
+@startuml
+
+' Classes principais
+abstract Usuario {
+    - id: int
+    - nome: String
+    - cpf: String
+    - email: String
+    - senha: String
+    + cadastrar(): void
+    + login(): boolean
+}
+
+class Cliente {
+    - telefone: String
+    - dataCadastro: DateTime
+    + escolherSessao(): void
+    + comprarIngresso(): void
+}
+
+class Admin {
+    - nivelAcesso: int
+    - matricula: String
+    + cadastrarFilme(): void
+    + editarFilme(): void
+    + inativarFilme(): void
+    + cadastrarSessao(): void
+    + editarSessao(): void
+    + inativarSessao(): void
+    + cadastrarSala(): void
+    + editarSala(): void
+    + inativarSala(): void
+}
+
+class Pedido {
+    - id: int
+    - idCliente: int
+    - dataHora: DateTime
+    - status: String
+    + criarPedido(): void
+    + cancelarPedido(): void
+}
+
+class Pagamento {
+    - id: int
+    - idPedido: int
+    - valorTotal: double
+    - metodo: String
+    - dataHora: DateTime
+    + processar(): boolean
+    + estornar(): void
+}
+
+class Ingresso {
+    - id: int
+    - idPedido: int
+    - idSessao: int
+    - idAssento: int
+    - codigoQR: String
+    - status: String
+    - ingressoMeiaEntrada: boolean
+    + validar(): boolean
+}
+
+class Assento {
+    - id: int
+    - idSala: int
+    - fila: char
+    - numero: int
+    - status: boolean
+    + mudarStatus(): boolean
+}
+
+class Sessao {
+    - id: int
+    - idFilme: int
+    - idSala: int
+    - idAdmin: int
+    - horario: DateTime
+    - ativa: boolean
+    + exibirDetalhes(): String
+}
+
+class Filme {
+    - id: int
+    - idGenero: int
+    - titulo: String
+    - duracao: int
+    - classificacao: String
+    - cartaz: Image
+    + exibirDetalhes(): String
+}
+
+class Sala {
+    - id: int
+    - numero: int
+    - capacidade: int
+    - sala3D: boolean
+    + verificarDisponibilidade(): boolean
+}
+
+class Genero {
+    - id: int
+    - nome: String
+    - descricao: String
+    - icone: String
+    + filtrarFilmes(): List
+}
+
+' Herança
+Usuario <|-- Cliente
+Usuario <|-- Admin
+
+' Relacionamentos
+Cliente "1" -- "n" Pedido
+Pedido "1" -- "1..n" Ingresso
+Pedido "1" <--o "1" Pagamento
+
+Ingresso "n" -- "1" Sessao
+Ingresso "1" -- "1" Assento
+
+Sala "1" o-- "n" Assento
+
+Admin "1" -- "n" Sessao
+
+Filme "1" -- "n" Sessao
+Sala "1" -- "n" Sessao
+Filme "n" -- "1" Genero
+
+@enduml
