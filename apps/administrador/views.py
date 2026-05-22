@@ -1,9 +1,15 @@
 from django.shortcuts import render, redirect
+from rest_framework import viewsets
+
 from .models import Administrador
+from .serializer import AdministradorSerializer
+
+class AdministradorViewSet(viewsets.ModelViewSet):
+    queryset = Administrador.objects.all()
+    serializer_class = AdministradorSerializer
 
 def cadastrar(request):
     template_name = 'admin/cadastrar.html'
-    
     if request.method == 'POST':
         Administrador.objects.create(
             nome=request.POST.get('nome'),
@@ -13,5 +19,4 @@ def cadastrar(request):
             nivel_acesso=request.POST.get('nivel_acesso'),
         )
         return redirect('usuarios:login')
-    
     return render(request, template_name)
