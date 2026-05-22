@@ -5,5 +5,4 @@ from .models import Pedido
 class PedidoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pedido
-        fields = ['id', 'dataHora', 'status']
-        read_only_fields = ['id', 'dataHora']
+        fields = '__all__'
