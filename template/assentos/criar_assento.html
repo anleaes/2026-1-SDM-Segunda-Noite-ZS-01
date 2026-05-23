@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block title %}Criar Assento{% endblock title %}
+
+{% block body %}
+<div class="form-page">
+    <div class="form-card">
+        <h1>Criar Assento</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="field-group">
+                <label for="id_sala">Sala</label>
+                <select id="id_sala" name="id_sala" required>
+                    <option value="">Selecione uma sala</option>
+                    {% for sala in salas %}
+                        <option value="{{ sala.id }}">{{ sala }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="field-group">
+                <label for="fila">Fila</label>
+                <select id="fila" name="fila" required>
+                    <option value="">Selecione uma fila</option>
+                    <option value="A">Fila A</option>
+                    <option value="B">Fila B</option>
+                    <option value="C">Fila C</option>
+                    <option value="D">Fila D</option>
+                    <option value="E">Fila E</option>
+                </select>
+            </div>
+
+            <div class="field-group">
+                <label for="numero">Número</label>
+                <input type="number" id="numero" name="numero" placeholder="Ex: 1" min="1" required>
+            </div>
+
+            <div class="field-group">
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                    <option value="true">Disponível</option>
+                    <option value="false">Indisponível</option>
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-confirmar">Criar Assento</button>
+                <a href="{% url 'assentos:listar_assentos' %}" class="btn-cancelar">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .field-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 16px;
+    }
+
+    .field-group label {
+        font-weight: bold;
+        margin-bottom: 6px;
+        font-size: 0.95rem;
+    }
+
+    .field-group input,
+    .field-group select {
+        padding: 10px 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 0.2s;
+    }
+
+    .field-group input:focus,
+    .field-group select:focus {
+        border-color: #4CAF50;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .btn-confirmar, .btn-cancelar {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-confirmar {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .btn-confirmar:hover {
+        background-color: #45a049;
+    }
+
+    .btn-cancelar {
+        background-color: #f44336;
+        color: white;
+    }
+
+    .btn-cancelar:hover {
+        background-color: #da190b;
+    }
+</style>
+{% endblock body %}
