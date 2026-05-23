@@ -14,8 +14,7 @@ class Sessao(models.Model):
     filme = models.ForeignKey(Filme, on_delete=models.CASCADE, related_name='sessoes')
     sala = models.ForeignKey(Sala, on_delete=models.CASCADE, related_name='sessoes')
     
-    # ATUALIZE A CHAVE ESTRANGEIRA PARA APONTAR PARA A SUA CLASSE:
-    #admin = models.ForeignKey(Administrador, on_delete=models.PROTECT, verbose_name='Administrador')
+    admin = models.ForeignKey(Administrador, on_delete=models.PROTECT, verbose_name='Administrador')
 
     class Meta:
         verbose_name = 'Sessão'
