@@ -32,9 +32,9 @@ def criar_assento(request):
         status = request.POST.get('status') == 'true'
 
         Assento.objects.create(
-            id_sala_id=id_sala,
+            id_sala_id=int(id_sala),
             fila=fila,
-            numero=numero,
+            numero=int(numero),
             status=status
         )
         return redirect('assentos:listar_assentos')

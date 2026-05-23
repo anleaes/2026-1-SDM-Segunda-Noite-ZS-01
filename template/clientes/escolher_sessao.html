@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Escolher Sessão{% endblock title %}
+
+{% block body %}
+<div class="form-page">
+    <div class="form-card">
+        <h1>Escolha uma sessão</h1>
+
+        {% if sessoes %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Filme</th>
+                    <th>Horário</th>
+                    <th>Sala</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in sessoes %}
+                {% if s.ativa == True or s.ativa == 1 %}
+                <tr>
+                    <td>{{ s.filme.titulo }}</td>
+                    <td>{{ s.horario }}</td>
+                    <td>{{ s.sala.numero }}</td>
+                    <td>
+                        <a href="{% url 'clientes:comprar_ingresso' s.id %}" class="btn-acao">Comprar ingresso</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>Nenhuma sessão disponível.</p>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f5f5f5;
+        font-weight: bold;
+    }
+
+    tr:hover {
+        background-color: #f9f9f9;
+    }
+
+    .btn-acao {
+        background-color: #007bff;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.85rem;
+        display: inline-block;
+    }
+
+    .btn-acao:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock body %}

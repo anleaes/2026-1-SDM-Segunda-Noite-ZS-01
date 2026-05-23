@@ -12,8 +12,8 @@
 
             <div class="field-group">
                 <label for="id_sala">Sala</label>
-                <select id="id_sala" name="id_sala" required>
-                    <option value="">Selecione uma sala</option>
+                    <select id="sala_select" name="id_sala" required>
+                        <option value="">Selecione uma sala</option>
                     {% for sala in salas %}
                         <option value="{{ sala.id }}">{{ sala }}</option>
                     {% endfor %}
