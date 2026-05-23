@@ -16,7 +16,6 @@ class AssentoViewSet(viewsets.ModelViewSet):
         else:
             permission_classes = [permissions.AllowAny]
         return [permission() for permission in permission_classes]
-    # -----------------------------------
 
 def listar_assentos(request):
     assentos = Assento.objects.all()
@@ -25,7 +24,6 @@ def listar_assentos(request):
 def criar_assento(request):
     if not request.user.is_staff:
         return HttpResponseForbidden("Acesso Negado: Apenas a administração pode criar assentos.")
-    # -----------------------------------
 
     if request.method == 'POST':
         id_sala = request.POST.get('id_sala')
