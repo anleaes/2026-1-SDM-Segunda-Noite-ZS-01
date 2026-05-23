@@ -11,7 +11,9 @@ class Pedido(models.Model):
     cliente = models.ForeignKey(
         'clientes.Cliente',
         on_delete=models.CASCADE,
-        verbose_name='Cliente'
+        verbose_name='Cliente',
+        null=True,
+        blank=True
     )
 
     dataHora = models.DateTimeField(
