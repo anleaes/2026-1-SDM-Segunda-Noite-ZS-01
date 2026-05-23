@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Assentos{% endblock title %}
+
+{% block body %}
+<div class="form-page">
+    <div class="form-card">
+        <h1>Assentos</h1>
+        
+        {% if assentos %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Sala</th>
+                    <th>Fila</th>
+                    <th>Número</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for assento in assentos %}
+                <tr>
+                    <td>{{ assento.id_sala }}</td>
+                    <td>{{ assento.fila }}</td>
+                    <td>{{ assento.numero }}</td>
+                    <td>
+                        <span class="status {% if assento.status %}disponivel{% else %}indisponivel{% endif %}">
+                            {% if assento.status %}Disponível{% else %}Indisponível{% endif %}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'assentos:mudar_status' assento.id %}" class="btn-acao">Mudar Status</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>Nenhum assento cadastrado.</p>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f5f5f5;
+        font-weight: bold;
+    }
+
+    tr:hover {
+        background-color: #f9f9f9;
+    }
+
+    .status {
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+
+    .status.disponivel {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .status.indisponivel {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .btn-acao {
+        background-color: #007bff;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.85rem;
+        display: inline-block;
+    }
+
+    .btn-acao:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock body %}

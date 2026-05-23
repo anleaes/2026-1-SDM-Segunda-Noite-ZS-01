@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Mudar Status do Assento{% endblock title %}
+
+{% block body %}
+<div class="form-page">
+    <div class="form-card">
+        <h1>Mudar Status do Assento</h1>
+        
+        <div class="assento-info">
+            <p><strong>Sala:</strong> {{ assento.id_sala }}</p>
+            <p><strong>Fila:</strong> {{ assento.fila }}</p>
+            <p><strong>Número:</strong> {{ assento.numero }}</p>
+            <p><strong>Status Atual:</strong> 
+                <span class="status {% if assento.status %}disponivel{% else %}indisponivel{% endif %}">
+                    {% if assento.status %}Disponível{% else %}Indisponível{% endif %}
+                </span>
+            </p>
+            <p><strong>Status Novo:</strong> 
+                <span class="status {% if not assento.status %}disponivel{% else %}indisponivel{% endif %}">
+                    {% if not assento.status %}Disponível{% else %}Indisponível{% endif %}
+                </span>
+            </p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn-confirmar">Confirmar Mudança</button>
+            <a href="{% url 'assentos:listar_assentos' %}" class="btn-cancelar">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+<style>
+    .assento-info {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .assento-info p {
+        margin: 10px 0;
+        font-size: 1rem;
+    }
+
+    .status {
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+
+    .status.disponivel {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .status.indisponivel {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    form {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .btn-confirmar, .btn-cancelar {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-confirmar {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .btn-confirmar:hover {
+        background-color: #45a049;
+    }
+
+    .btn-cancelar {
+        background-color: #f44336;
+        color: white;
+    }
+
+    .btn-cancelar:hover {
+        background-color: #da190b;
+    }
+</style>
+{% endblock body %}
