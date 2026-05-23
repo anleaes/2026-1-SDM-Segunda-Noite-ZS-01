@@ -16,7 +16,8 @@ http://localhost:8000/clientes/clientes/
 
 MVT
 http://127.0.0.1:8000/clientes/cadastrar
-
+http://localhost:8000/clientes/escolher/
+http://localhost:8000/clientes/comprar/14/
 Admin:
 MVC
 http://localhost:8000/administrador/administrador/

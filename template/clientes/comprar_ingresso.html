@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Comprar Ingresso{% endblock title %}
+
+{% block body %}
+<div class="form-page">
+    <div class="form-card">
+        <h1>Comprar ingresso — {{ sessao.filme.titulo }}</h1>
+        <p>Horário: {{ sessao.horario }} — Sala {{ sessao.sala.numero }}</p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="field-group">
+                <label for="cpf">CPF do cliente</label>
+                <input type="text" name="cpf" id="cpf" required>
+            </div>
+
+            <h3>Assentos disponíveis</h3>
+            {% if assentos %}
+            <div class="assentos-grid">
+                {% for a in assentos %}
+                {% if not a.status or a.status == 0 %}
+                <label class="assento-item">
+                    <input type="radio" name="assento_id" value="{{ a.id }}" required>
+                    <span>{{ a.fila }}{{ a.numero }}</span>
+                </label>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn-acao">Confirmar compra</button>
+            {% else %}
+            <p>Sem assentos disponíveis.</p>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+<style>
+    .field-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+    .field-group label {
+        font-weight: bold;
+        margin-bottom: 6px;
+    }
+
+    .field-group input {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    h3 {
+        margin-bottom: 12px;
+    }
+
+    .assentos-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 24px;
+    }
+
+    .assento-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: #f9f9f9;
+        font-size: 0.95rem;
+    }
+
+    .assento-item:hover {
+        background-color: #e8f0fe;
+        border-color: #007bff;
+    }
+
+    .assento-item input[type="radio"] {
+        accent-color: #007bff;
+    }
+
+    .btn-acao {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-acao:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock body %}
