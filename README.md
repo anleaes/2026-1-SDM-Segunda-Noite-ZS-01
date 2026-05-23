@@ -27,3 +27,12 @@ http://127.0.0.1:8000/administrador/cadastrar/
 Usuario
 MVC
 http://127.0.0.1:8000/usuarios/usuarios/
+
+Assentos
+MCV
+http://localhost:8000/assentos/assentos/
+
+MVT
+http://localhost:8000/assentos/assentos/listar
+http://localhost:8000/assentos/assentos/1/mudar-status/
+http://localhost:8000/assentos/assentos/criar

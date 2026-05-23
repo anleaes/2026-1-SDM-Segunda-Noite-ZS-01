@@ -30,6 +30,7 @@ class Admin {
     + cadastrarSala(): void
     + editarSala(): void
     + inativarSala(): void
+    + criarAssento(): void
 }
 
 class Pedido {
