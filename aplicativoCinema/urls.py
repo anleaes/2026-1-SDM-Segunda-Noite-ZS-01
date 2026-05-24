@@ -30,6 +30,7 @@ urlpatterns = [
     path('pedido/', include('pedido.urls', namespace='pedido')),
     path('sessoes/', include('sessoes.urls', namespace='sessoes')),
     path('assentos/', include('assentos.urls', namespace='assentos')),
+    
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
