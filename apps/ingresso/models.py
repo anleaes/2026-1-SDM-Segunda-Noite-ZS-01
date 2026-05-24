@@ -1,7 +1,9 @@
 from django.db import models
 from pedido.models import Pedido
+from sessoes.models import Sessao
+from assentos.models import Assento
 
-# Create your models here.
+
 class Ingresso(models.Model):
     STATUS_CHOICES = [
         ('criado', 'Criado'),
@@ -16,17 +18,23 @@ class Ingresso(models.Model):
         verbose_name='Pedido'
     )
 
-    idSessao = models.IntegerField(
-        verbose_name='ID Sessão'
+    sessao = models.ForeignKey(
+        Sessao,
+        on_delete=models.CASCADE,
+        related_name='ingressos',
+        verbose_name='Sessão'
     )
 
-    idAssento = models.IntegerField(
-        verbose_name='ID Assento'
+    assento = models.OneToOneField(
+        Assento,
+        on_delete=models.CASCADE,
+        related_name='ingresso',
+        verbose_name='Assento'
     )
 
-    codigoPR = models.CharField(
+    codigoQR = models.CharField(
         max_length=100,
-        verbose_name='Código PR'
+        verbose_name='Código QR'
     )
 
     status = models.CharField(
