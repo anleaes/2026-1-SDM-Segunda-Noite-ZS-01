@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'pedido.apps.PedidoConfig',
     'sessoes.apps.SessoesConfig',
     'assentos.apps.AssentosConfig',
+    'pagamento.apps.PagamentoConfig',
 ]
 
 MIDDLEWARE = [
