@@ -31,6 +31,7 @@ urlpatterns = [
     path('sessoes/', include('sessoes.urls', namespace='sessoes')),
     path('assentos/', include('assentos.urls', namespace='assentos')),
     path('pagamento/', include('pagamento.urls', namespace='pagamento')),
+    path('ingresso/', include('ingresso.urls', namespace='ingresso')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

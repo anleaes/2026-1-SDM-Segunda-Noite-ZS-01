@@ -22,3 +22,5 @@ aplicativoCinema/__pycache__/*
 /apps/sessoes/migrations/*
 /apps/pagamento/__pycache__/*
 /apps/pagamento/migrations/*
+/apps/ingresso/__pycache__/*
+/apps/ingresso/migrations/*
