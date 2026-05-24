@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
 from clientes.models import Cliente
 from administrador.models import Administrador
+from .models import Usuario
 from .serializer import UsuarioSerializer
 from rest_framework import viewsets
 
+
 class UsuarioViewSet(viewsets.ModelViewSet):
-    queryset = Cliente.objects.all()
+    queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
+
 
 def login(request):
     template_name = 'usuarios/login.html'
@@ -34,6 +37,7 @@ def login(request):
         return render(request, template_name, {'erro': 'Senha incorreta'})
     
     return render(request, template_name)
+
 
 def logout(request):
     request.session.flush()
