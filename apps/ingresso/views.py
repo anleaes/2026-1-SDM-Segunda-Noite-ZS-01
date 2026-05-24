@@ -5,7 +5,7 @@ from rest_framework import viewsets
 from .models import Ingresso
 from .serializer import IngressoSerializer
 
-# Create your views here.
+
 class IngressoViewSet(viewsets.ModelViewSet):
     queryset = Ingresso.objects.all()
     serializer_class = IngressoSerializer
@@ -16,9 +16,9 @@ def listar_ingressos(request):
         Ingresso.objects.values(
             'id',
             'pedido_id',
-            'idSessao',
-            'idAssento',
-            'codigoPR',
+            'sessao_id',
+            'assento_id',
+            'codigoQR',
             'status',
             'ingressoMeiaEntrada'
         )
@@ -33,9 +33,9 @@ def detalhe_ingresso(request, ingresso_id):
     return JsonResponse({
         'id': ingresso.id,
         'pedido': ingresso.pedido_id,
-        'idSessao': ingresso.idSessao,
-        'idAssento': ingresso.idAssento,
-        'codigoPR': ingresso.codigoPR,
+        'sessao': ingresso.sessao_id,
+        'assento': ingresso.assento_id,
+        'codigoQR': ingresso.codigoQR,
         'status': ingresso.status,
         'ingressoMeiaEntrada': ingresso.ingressoMeiaEntrada
     })
