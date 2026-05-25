@@ -28,14 +28,6 @@ class Pedido(models.Model):
         verbose_name='Status'
     )
 
-    def criarPedido(self):
-        self.status = 'criado'
-        self.save()
-
-    def cancelarPedido(self):
-        self.status = 'cancelado'
-        self.save()
-
     def __str__(self):
         return f'Pedido {self.id} - Cliente {self.cliente_id} - {self.status}'
 
