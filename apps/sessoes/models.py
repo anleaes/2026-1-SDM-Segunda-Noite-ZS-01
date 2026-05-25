@@ -2,10 +2,7 @@ from django.db import models
 from filmes.models import Filme
 from salas.models import Sala
 
-# REMOVA ESTA LINHA: 
-# from django.contrib.auth.models import User 
 
-# ADICIONE A IMPORTAÇÃO DA SUA CLASSE:
 from administrador.models import Administrador 
 
 class Sessao(models.Model):
