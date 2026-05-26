@@ -17,6 +17,7 @@ def cadastrar(request):
             email=request.POST.get('email'),
             senha=request.POST.get('senha'),
             nivel_acesso=request.POST.get('nivel_acesso'),
+            matricula=request.POST.get('matricula'),
         )
         return redirect('usuarios:login')
     return render(request, template_name)
