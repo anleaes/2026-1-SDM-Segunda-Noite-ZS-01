@@ -6,15 +6,129 @@
 <div class="form-page">
     <div class="form-card">
         <h1>Cadastro de Cliente</h1>
+
         <form method="POST">
             {% csrf_token %}
-            <input type="text" name="nome" placeholder="Nome" required>
-            <input type="text" name="cpf" placeholder="CPF" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="senha" placeholder="Senha" required>
-            <input type="text" name="telefone" placeholder="Telefone">
-            <button type="submit">Cadastrar</button>
+
+            <div class="field-group">
+                <label>Nome</label>
+                <input type="text" name="nome" placeholder="Digite seu nome" required>
+            </div>
+
+            <div class="field-group">
+                <label>CPF</label>
+                <input type="text" name="cpf" placeholder="Digite seu CPF" required>
+            </div>
+
+            <div class="field-group">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="Digite seu email" required>
+            </div>
+
+            <div class="field-group">
+                <label>Senha</label>
+                <input type="password" name="senha" placeholder="Digite sua senha" required>
+            </div>
+
+            <div class="field-group">
+                <label>Telefone</label>
+                <input type="text" name="telefone" placeholder="Digite seu telefone">
+            </div>
+
+            <button type="submit" class="btn-cadastro">
+                Cadastrar
+            </button>
         </form>
     </div>
 </div>
+
+<style>
+    body {
+        background-color: #0f0f0f;
+        font-family: Arial, Helvetica, sans-serif;
+        color: white;
+    }
+
+    .form-page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 50px 20px;
+    }
+
+    .form-card {
+        background-color: #1a1a1a;
+        width: 100%;
+        max-width: 700px;
+        padding: 45px;
+        border-radius: 16px;
+        border: 1px solid #2a2a2a;
+        box-shadow: 0 0 25px rgba(255, 0, 0, 0.15);
+    }
+
+    .form-card h1 {
+        text-align: center;
+        color: #ff2d2d;
+        margin-bottom: 35px;
+        font-size: 2.4rem;
+        letter-spacing: 1px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+    }
+
+    .field-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .field-group label {
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #ffffff;
+        font-size: 0.95rem;
+    }
+
+    .field-group input {
+        background-color: #111;
+        border: 1px solid #333;
+        border-radius: 10px;
+        padding: 14px;
+        color: white;
+        font-size: 1rem;
+        transition: 0.2s ease;
+    }
+
+    .field-group input:focus {
+        outline: none;
+        border-color: #ff2d2d;
+        box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+    }
+
+    .field-group input::placeholder {
+        color: #888;
+    }
+
+    .btn-cadastro {
+        margin-top: 10px;
+        background: linear-gradient(135deg, #c40000, #7a0000);
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .btn-cadastro:hover {
+        background: linear-gradient(135deg, #ff1a1a, #990000);
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+        transform: translateY(-2px);
+    }
+</style>
 {% endblock body %}
