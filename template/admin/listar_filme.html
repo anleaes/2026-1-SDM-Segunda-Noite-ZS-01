@@ -42,7 +42,7 @@
           <td><span class="badge">{{ filme.classificacao }}</span></td>
           <td class="col-actions">
             <a href="{% url 'administrador:editar_filme' filme.pk %}" class="btn-edit">Editar</a>
-            <form method="POST" action="{% url 'administrador:inativar_filme' filme.pk %}" style="display:inline">
+            <form method="POST" action="{% url 'administrador:remover_filme' filme.pk %}" style="display:inline">
               {% csrf_token %}
               <button type="submit" class="btn-delete"
                 onclick="return confirm('Remover o filme {{ filme.titulo }}? Esta ação não pode ser desfeita.')">Remover</button>

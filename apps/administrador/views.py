@@ -79,6 +79,18 @@ def editar_filme(request, pk):
         'generos': generos
     })
 
+def remover_filme(request, pk):
+    filme = get_object_or_404(Filme, pk=pk)
+
+    if request.method == 'POST':
+        titulo = filme.titulo
+
+        filme.delete()
+
+        messages.success(request, f'Filme "{titulo}" removido com sucesso!')
+
+    return redirect('administrador:listar_filmes')
+
 def cadastrar_sessao(request):
     template_name = 'admin/cadastrar_sessao.html'
 
@@ -118,6 +130,7 @@ def editar_sessao(request, pk):
     sessao = get_object_or_404(Sessao, pk=pk)
 
     salas = Sala.objects.filter(ativo=True)
+    filmes = Filme.objects.all()
 
     if request.method == 'POST':
         sessao.horario = request.POST.get('horario')
@@ -131,7 +144,8 @@ def editar_sessao(request, pk):
 
     return render(request, 'admin/editar_sessao.html', {
         'sessao': sessao,
-        'salas': salas
+        'salas': salas,
+        'filmes': filmes
     })
 
 def inativar_sessao(request, pk):
