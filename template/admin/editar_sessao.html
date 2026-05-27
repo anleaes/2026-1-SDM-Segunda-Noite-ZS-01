@@ -7,6 +7,17 @@
     <h1>Editar Sessão</h1>
     <form method="POST">
       {% csrf_token %}
+      <div class="field-group">
+        <label>Filme</label>
+        <select name="filme" required>
+          <option value="" disabled>Selecione o filme</option>
+          {% for f in filmes %}
+            <option value="{{ f.pk }}" {% if f.pk == sessao.filme.pk %}selected{% endif %}>
+              {{ f.titulo }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
     </form>
   </div>
 </div>
