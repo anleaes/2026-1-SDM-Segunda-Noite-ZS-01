@@ -3,5 +3,13 @@
 
 {% block body %}
 <div class="list-page">
+  <div class="list-header">
+    <h1>Salas</h1>
+    <a href="{% url 'administrador:cadastrar_sala' %}" class="btn-novo">+ Nova Sala</a>
+  </div>
+
+  {% if messages %}
+    {% for msg in messages %}<div class="alert">{{ msg }}</div>{% endfor %}
+  {% endif %}
 </div>
 {% endblock body %}
