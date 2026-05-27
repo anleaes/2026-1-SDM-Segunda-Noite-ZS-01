@@ -17,6 +17,17 @@
           <input type="number" name="capacidade" value="{{ sala.capacidade }}" min="1" required />
         </div>
       </div>
+      <div class="field-group checkbox-group">
+        <label class="switch">
+          <input type="checkbox" name="sala3D" {% if sala.sala3D %}checked{% endif %}>
+          <span class="slider"></span>
+        </label>
+        <span class="checkbox-label">Esta sala suporta exibição em 3D</span>
+      </div>
+      <div class="btn-row">
+        <a href="{% url 'administrador:listar_salas' %}" class="btn-secondary">Cancelar</a>
+        <button type="submit" class="btn-submit">Salvar Alterações</button>
+      </div>
     </form>
   </div>
 </div>
