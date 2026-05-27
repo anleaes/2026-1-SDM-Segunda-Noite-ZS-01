@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Sessões{% endblock title %}
+
+{% block body %}
+<div class="list-page">
+  <div class="list-header">
+    <h1>Sessões</h1>
+    <a href="{% url 'administrador:cadastrar_sessao' %}" class="btn-novo">+ Nova Sessão</a>
+  </div>
+
+  {% if messages %}
+    {% for msg in messages %}<div class="alert">{{ msg }}</div>{% endfor %}
+  {% endif %}
+
+  </div>
+{% endblock body %}
