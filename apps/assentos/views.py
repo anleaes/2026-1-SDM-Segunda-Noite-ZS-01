@@ -46,7 +46,21 @@ def mudar_status(request, id):
     assento = get_object_or_404(Assento, id=id)
     
     if request.method == 'POST':
-        assento.status = not assento.status
+        new_status = not assento.status
+
+        if not new_status:
+            try:
+                ingresso = assento.ingresso
+            except Exception:
+                ingresso = None
+
+            if ingresso and ingresso.status != 'cancelado':
+                return render(request, 'assentos/mudar_status.html', {
+                    'assento': assento,
+                    'error': 'Não é possível desativar: existe um ingresso ativo para este assento.'
+                })
+
+        assento.status = new_status
         assento.save()
         return redirect('assentos:listar_assentos')
     
