@@ -25,7 +25,34 @@
         </tr>
       </thead>
       <tbody>
-        </tbody>
+        {% for sessao in sessoes %}
+        <tr>
+          <td>{{ sessao.id }}</td>
+          <td class="col-bold">{{ sessao.filme.titulo }}</td>
+          <td>{{ sessao.sala.nome }}</td>
+          <td>{{ sessao.horario|date:"d/m/Y H:i" }}</td>
+          <td>
+            {% if sessao.ativa %}
+              <span class="badge badge-active">Ativa</span>
+            {% else %}
+              <span class="badge badge-inactive">Inativa</span>
+            {% endif %}
+          </td>
+          <td class="col-actions">
+            <a href="{% url 'administrador:editar_sessao' sessao.pk %}" class="btn-edit">Editar</a>
+            <form method="POST" action="{% url 'administrador:inativar_sessao' sessao.pk %}" style="display:inline">
+              {% csrf_token %}
+              <button type="submit" class="btn-delete"
+                onclick="return confirm('Mudar o status da sessão do filme {{ sessao.filme.titulo }}?')">
+                Inativar/Ativar
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="col-empty">Nenhuma sessão cadastrada.</td></tr>
+        {% endfor %}
+      </tbody>
     </table>
   </div>
 </div>
