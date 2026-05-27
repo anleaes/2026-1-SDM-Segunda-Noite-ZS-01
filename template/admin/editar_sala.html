@@ -110,6 +110,106 @@
     background-size: 16px;
     cursor: pointer;
   }
+  .checkbox-group {
+    flex-direction: row;
+    align-items: center;
+    background: #111;
+    padding: 16px 20px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    gap: 15px;
+  }
+  .checkbox-label {
+    font-weight: bold;
+    color: #ccc;
+    font-size: 1rem;
+  }
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 54px;
+    height: 28px;
+    margin-bottom: 0 !important;
+  }
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #2a2a2a;
+    transition: .3s ease;
+    border-radius: 34px;
+    border: 1px solid #444;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: #888;
+    transition: .3s ease;
+    border-radius: 50%;
+  }
+  .switch input:checked + .slider {
+    background-color: #c40000;
+    border-color: #ff2d2d;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+  }
+  .switch input:checked + .slider:before {
+    transform: translateX(26px);
+    background-color: white;
+  }
+  .btn-row {
+    display: flex;
+    gap: 14px;
+    margin-top: 15px;
+  }
+  .btn-submit {
+    flex: 1;
+    background: linear-gradient(135deg, #c40000, #7a0000);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+  }
+  .btn-submit:hover {
+    background: linear-gradient(135deg, #ff1a1a, #990000);
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+    transform: translateY(-2px);
+  }
+  .btn-secondary {
+    flex: 1;
+    background: #2a2a2a;
+    color: #ccc;
+    border: 1px solid #444;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s ease;
+  }
+  .btn-secondary:hover {
+    background: #333;
+    color: white;
+  }
   @media (max-width: 600px) {
     .row-group {
       grid-template-columns: 1fr;
