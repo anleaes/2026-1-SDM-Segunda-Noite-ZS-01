@@ -29,7 +29,7 @@
         <tr>
           <td>{{ sessao.id }}</td>
           <td class="col-bold">{{ sessao.filme.titulo }}</td>
-          <td>{{ sessao.sala.nome }}</td>
+          <td>Sala {{ sessao.sala.numero }}</td>
           <td>{{ sessao.horario|date:"d/m/Y H:i" }}</td>
           <td>
             {% if sessao.ativa %}
