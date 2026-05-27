@@ -31,6 +31,8 @@ class Admin {
     + editarSala(): void
     + inativarSala(): void
     + criarAssento(): void
+    + criarGenero(): void
+    + editarGenero(): void
 }
 
 class Pedido {

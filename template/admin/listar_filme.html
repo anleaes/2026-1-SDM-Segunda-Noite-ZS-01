@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+{% block title %}Filmes{% endblock %}
+
+{% block body %}
+<div class="list-page">
+  <div class="list-header">
+    <h1>Filmes</h1>
+    <a href="{% url 'administrador:cadastrar_filme' %}" class="btn-novo">+ Novo Filme</a>
+  </div>
+
+  {% if messages %}
+    {% for msg in messages %}<div class="alert">{{ msg }}</div>{% endfor %}
+  {% endif %}
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Cartaz</th>
+          <th>Título</th>
+          <th>Gênero</th>
+          <th>Duração</th>
+          <th>Classificação</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for filme in filmes %}
+        <tr>
+          <td>{{ filme.id }}</td>
+          <td>
+            {% if filme.cartaz %}
+              <img src="{{ filme.cartaz.url }}" alt="{{ filme.titulo }}" class="thumb">
+            {% else %}
+              <div class="no-thumb">—</div>
+            {% endif %}
+          </td>
+          <td class="col-bold">{{ filme.titulo }}</td>
+          <td>{{ filme.genero.nome }}</td>
+          <td>{{ filme.duracao }} min</td>
+          <td><span class="badge">{{ filme.classificacao }}</span></td>
+          <td class="col-actions">
+            <a href="{% url 'administrador:editar_filme' filme.pk %}" class="btn-edit">Editar</a>
+            <form method="POST" action="{% url 'administrador:inativar_filme' filme.pk %}" style="display:inline">
+              {% csrf_token %}
+              <button type="submit" class="btn-delete"
+                onclick="return confirm('Remover o filme {{ filme.titulo }}? Esta ação não pode ser desfeita.')">Remover</button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7" class="col-empty">Nenhum filme cadastrado.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  body {
+    background-color: #0f0f0f;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+  }
+
+  .list-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 24px;
+  }
+
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+
+  .list-header h1 {
+    color: #ff2d2d;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    margin: 0;
+  }
+
+  .btn-novo {
+    background: linear-gradient(135deg, #c40000, #7a0000);
+    color: white;
+    padding: 12px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.95rem;
+    transition: 0.2s ease;
+  }
+
+  .btn-novo:hover {
+    background: linear-gradient(135deg, #ff1a1a, #990000);
+    box-shadow: 0 0 12px rgba(255, 0, 0, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .alert {
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background: #1a2a1a;
+    border: 1px solid #2d6a2d;
+    color: #6fcf6f;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    border-radius: 14px;
+    border: 1px solid #2a2a2a;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead {
+    background: #1f1f1f;
+  }
+
+  th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ff2d2d;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 16px;
+    border-top: 1px solid #222;
+    font-size: 0.93rem;
+    vertical-align: middle;
+  }
+
+  tbody tr:hover {
+    background: #181818;
+  }
+
+  .col-bold {
+    font-weight: bold;
+    color: #fff;
+  }
+
+  .col-empty {
+    text-align: center;
+    color: #555;
+    padding: 40px;
+  }
+
+  .col-actions {
+    white-space: nowrap;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .thumb {
+    width: 42px;
+    height: 58px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 1px solid #333;
+    display: block;
+  }
+
+  .no-thumb {
+    width: 42px;
+    height: 58px;
+    background: #222;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    font-size: 0.85rem;
+  }
+
+  .badge {
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: #ccc;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: bold;
+  }
+
+  .btn-edit {
+    background: #1e2e1e;
+    border: 1px solid #2d6a2d;
+    color: #6fcf6f;
+    padding: 6px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: bold;
+    transition: 0.15s ease;
+  }
+
+  .btn-edit:hover {
+    background: #2d6a2d;
+    color: white;
+  }
+
+  .btn-delete {
+    background: #2e1e1e;
+    border: 1px solid #7a0000;
+    color: #ff6b6b;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.15s ease;
+  }
+
+  .btn-delete:hover {
+    background: #7a0000;
+    color: white;
+  }
+</style>
+
+{% endblock %}

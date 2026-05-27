@@ -1,40 +1,52 @@
 {% extends 'base.html' %}
-
-{% block title %}Escolher Sessão{% endblock title %}
+{% block title %}Filmes em Cartaz{% endblock %}
 
 {% block body %}
 <div class="list-page">
   <div class="list-header">
-    <h1>
-      {% if filme %}Sessões — {{ filme.titulo }}{% else %}Sessões Disponíveis{% endif %}
-    </h1>
-    <a href="{% url 'clientes:listar_filmes' %}" class="btn-voltar">← Voltar aos Filmes</a>
+    <h1>Filmes em Cartaz</h1>
   </div>
+
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="alert {% if 'erro' in msg.tags or 'error' in msg.tags %}alert-error{% endif %}">{{ msg }}</div>
+    {% endfor %}
+  {% endif %}
 
   <div class="table-wrapper">
     <table>
       <thead>
         <tr>
-          {% if not filme %}<th>Filme</th>{% endif %}
-          <th>Horário</th>
-          <th>Sala</th>
-          <th>Ação</th>
+          <th>#</th>
+          <th>Cartaz</th>
+          <th>Título</th>
+          <th>Gênero</th>
+          <th>Duração</th>
+          <th>Classificação</th>
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody>
-        {% for s in sessoes %}
+        {% for filme in filmes %}
         <tr>
-          {% if not filme %}<td class="col-bold">{{ s.filme.titulo }}</td>{% endif %}
-          <td>{{ s.horario|date:"d/m/Y H:i" }}</td>
-          <td>Sala {{ s.sala.numero }}</td>
+          <td>{{ filme.id }}</td>
+          <td>
+            {% if filme.cartaz %}
+              <img src="{{ filme.cartaz.url }}" alt="{{ filme.titulo }}" class="thumb">
+            {% else %}
+              <div class="no-thumb">—</div>
+            {% endif %}
+          </td>
+          <td class="col-bold">{{ filme.titulo }}</td>
+          <td>{{ filme.genero.nome }}</td>
+          <td>{{ filme.duracao }} min</td>
+          <td><span class="badge">{{ filme.classificacao }}</span></td>
           <td class="col-actions">
-            <a href="{% url 'clientes:comprar_ingresso' s.id %}" class="btn-comprar">
-              Comprar Ingresso
-            </a>
+            <a href="{% url 'clientes:escolher_sessao_filme' filme.pk %}" class="btn-comprar">Comprar</a>
           </td>
         </tr>
         {% empty %}
-        <tr><td colspan="4" class="col-empty">Nenhuma sessão disponível para este filme.</td></tr>
+        <tr><td colspan="7" class="col-empty">Nenhum filme disponível no momento.</td></tr>
         {% endfor %}
       </tbody>
     </table>
@@ -68,20 +80,19 @@
     margin: 0;
   }
 
-  .btn-voltar {
-    background: #1f1f1f;
-    color: #ccc;
-    padding: 10px 20px;
+  .alert {
+    padding: 14px 18px;
     border-radius: 10px;
-    text-decoration: none;
-    font-size: 0.9rem;
-    border: 1px solid #333;
-    transition: 0.2s ease;
+    margin-bottom: 20px;
+    background: #1a2a1a;
+    border: 1px solid #2d6a2d;
+    color: #6fcf6f;
   }
 
-  .btn-voltar:hover {
-    background: #2a2a2a;
-    color: white;
+  .alert-error {
+    background: #2a1a1a;
+    border: 1px solid #6a2d2d;
+    color: #cf6f6f;
   }
 
   .table-wrapper {
@@ -124,6 +135,37 @@
     font-weight: bold;
   }
 
+  .thumb {
+    width: 50px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #333;
+  }
+
+  .no-thumb {
+    width: 50px;
+    height: 70px;
+    background: #2a2a2a;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    font-size: 1.1rem;
+  }
+
+  .badge {
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: #ccc;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
   .col-actions {
     white-space: nowrap;
   }
@@ -153,4 +195,4 @@
     font-style: italic;
   }
 </style>
-{% endblock body %}
+{% endblock %}
