@@ -24,6 +24,29 @@
         </tr>
       </thead>
       <tbody>
+        {% for sala in salas %}
+        <tr>
+          <td>{{ sala.id }}</td>
+          <td class="col-bold">{{ sala.numero }}</td>
+          <td>{{ sala.capacidade }} assentos</td>
+          <td>
+            {% if sala.sala3D %}
+              <span class="badge badge-active">Sim</span>
+            {% else %}
+              <span class="badge badge-inactive">Não</span>
+            {% endif %}
+          </td>
+          <td class="col-actions">
+            <a href="{% url 'administrador:editar_sala' sala.pk %}" class="btn-edit">Editar</a>
+            <form method="POST" action="{% url 'administrador:remover_sala' sala.pk %}" style="display:inline">
+              {% csrf_token %}
+              <button type="submit" class="btn-delete" onclick="return confirm('Remover a sala {{ sala.numero }}?')">Remover</button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" class="col-empty">Nenhuma sala cadastrada.</td></tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
