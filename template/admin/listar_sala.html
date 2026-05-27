@@ -78,5 +78,56 @@
     letter-spacing: 1px;
     margin: 0;
   }
+
+  .btn-novo {
+    background: linear-gradient(135deg, #c40000, #7a0000);
+    color: white;
+    padding: 12px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.95rem;
+    transition: 0.2s ease;
+  }
+
+  .btn-novo:hover {
+    background: linear-gradient(135deg, #ff1a1a, #990000);
+    box-shadow: 0 0 12px rgba(255, 0, 0, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .alert {
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background: #1a2a1a;
+    border: 1px solid #2d6a2d;
+    color: #6fcf6f;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    border-radius: 14px;
+    border: 1px solid #2a2a2a;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead {
+    background: #1f1f1f;
+  }
+
+  th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ff2d2d;
+    white-space: nowrap;
+  }
 </style>
 {% endblock body %}
