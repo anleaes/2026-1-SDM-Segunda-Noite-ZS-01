@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Cadastrar Sala{% endblock title %}
+
+{% block body %}
+<div class="form-page">
+  <div class="form-card">
+    <h1>Cadastrar Sala</h1>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="row-group">
+        <div class="field-group">
+          <label>Identificação / Número</label>
+          <input
+            type="text"
+            name="numero"
+            placeholder="Ex: Sala 01 ou VIP"
+            required
+          />
+        </div>
+
+        <div class="field-group">
+          <label>Capacidade (Assentos)</label>
+          <input
+            type="number"
+            name="capacidade"
+            placeholder="Ex: 150"
+            min="1"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="field-group checkbox-group">
+        <label class="switch">
+          <input type="checkbox" name="sala3D">
+          <span class="slider"></span>
+        </label>
+        <span class="checkbox-label">Esta sala suporta exibição em 3D</span>
+      </div>
+
+      <div class="btn-row">
+        <a href="{% url 'administrador:listar_salas' %}" class="btn-secondary">
+          Cancelar
+        </a>
+        <button type="submit" class="btn-submit">Cadastrar Sala</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock body %}
