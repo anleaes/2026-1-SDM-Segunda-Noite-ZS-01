@@ -38,7 +38,7 @@
           </td>
           <td class="col-actions">
             <a href="{% url 'administrador:editar_sala' sala.pk %}" class="btn-edit">Editar</a>
-            <form method="POST" action="{% url 'administrador:remover_sala' sala.pk %}" style="display:inline">
+            <form method="POST" action="{% url 'administrador:inativar_sala' sala.pk %}" style="display:inline">
               {% csrf_token %}
               <button type="submit" class="btn-delete" onclick="return confirm('Remover a sala {{ sala.numero }}?')">Remover</button>
             </form>
