@@ -5,6 +5,7 @@ from rest_framework import viewsets
 from sessoes.models import Sessao
 from assentos.models import Assento
 from pedido.models import Pedido
+from filmes.models import Filme
 from django.contrib import messages
 
 class ClienteViewSet(viewsets.ModelViewSet):
@@ -27,9 +28,18 @@ def cadastrar(request):
     return render(request, template_name)
 
 
-def escolher_sessao(request):
-    sessoes = Sessao.objects.select_related('filme', 'sala').all()
-    return render(request, 'clientes/escolher_sessao.html', {'sessoes': sessoes})
+def listar_filmes(request):
+    filmes = Filme.objects.select_related('genero').all()
+    return render(request, 'clientes/listar_filmes.html', {'filmes': filmes})
+
+
+def escolher_sessao(request, filme_id=None):
+    qs = Sessao.objects.select_related('filme', 'sala').filter(ativa=True)
+    filme = None
+    if filme_id:
+        filme = Filme.objects.get(id=filme_id)
+        qs = qs.filter(filme_id=filme_id)
+    return render(request, 'clientes/escolher_sessao.html', {'sessoes': qs, 'filme': filme})
 
 
 def comprar_ingresso(request, sessao_id):

@@ -3,80 +3,157 @@
 {% block title %}Escolher Sessão{% endblock title %}
 
 {% block body %}
-<div class="form-page">
-    <div class="form-card">
-        <h1>Escolha uma sessão</h1>
+<div class="list-page">
+  <div class="list-header">
+    <h1>
+      {% if filme %}Sessões — {{ filme.titulo }}{% else %}Sessões Disponíveis{% endif %}
+    </h1>
+    <a href="{% url 'clientes:listar_filmes' %}" class="btn-voltar">← Voltar aos Filmes</a>
+  </div>
 
-        {% if sessoes %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Filme</th>
-                    <th>Horário</th>
-                    <th>Sala</th>
-                    <th>Ação</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for s in sessoes %}
-                {% if s.ativa == True or s.ativa == 1 %}
-                <tr>
-                    <td>{{ s.filme.titulo }}</td>
-                    <td>{{ s.horario }}</td>
-                    <td>{{ s.sala.numero }}</td>
-                    <td>
-                        <a href="{% url 'clientes:comprar_ingresso' s.id %}" class="btn-acao">
-                            Comprar ingresso
-                        </a>
-                    </td>
-                </tr>
-                {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <p class="sem-sessoes">Nenhuma sessão disponível.</p>
-        {% endif %}
-    </div>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          {% if not filme %}<th>Filme</th>{% endif %}
+          <th>Horário</th>
+          <th>Sala</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in sessoes %}
+        <tr>
+          {% if not filme %}<td class="col-bold">{{ s.filme.titulo }}</td>{% endif %}
+          <td>{{ s.horario|date:"d/m/Y H:i" }}</td>
+          <td>Sala {{ s.sala.numero }}</td>
+          <td class="col-actions">
+            <a href="{% url 'clientes:comprar_ingresso' s.id %}" class="btn-comprar">
+              Comprar Ingresso
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" class="col-empty">Nenhuma sessão disponível para este filme.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <style>
-    body {
-        background-color: #0f0f0f;
-        font-family: Arial, Helvetica, sans-serif;
-        color: white;
-    }
+  body {
+    background-color: #0f0f0f;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+  }
 
-    .form-page {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 40px 20px;
-    }
+  .list-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 24px;
+  }
 
-    .form-card {
-        background-color: #1a1a1a;
-        width: 100%;
-        max-width: 950px;
-        padding: 30px;
-        border-radius: 14px;
-        border: 1px solid #2a2a2a;
-    }
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
 
-    .form-card h1 {
-        text-align: center;
-        color: #ff2d2d;
-        margin-bottom: 25px;
-        font-size: 2rem;
-        letter-spacing: 1px;
-    }
+  .list-header h1 {
+    color: #ff2d2d;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    margin: 0;
+  }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        overflow: hidden;
-        border-radius: 10px;
-    }
+  .btn-voltar {
+    background: #1f1f1f;
+    color: #ccc;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border: 1px solid #333;
+    transition: 0.2s ease;
+  }
+
+  .btn-voltar:hover {
+    background: #2a2a2a;
+    color: white;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    border-radius: 14px;
+    border: 1px solid #2a2a2a;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead {
+    background: #1f1f1f;
+  }
+
+  th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ff2d2d;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 16px;
+    border-top: 1px solid #222;
+    font-size: 0.93rem;
+    vertical-align: middle;
+  }
+
+  tbody tr:hover {
+    background: #181818;
+  }
+
+  .col-bold {
+    font-weight: bold;
+  }
+
+  .col-actions {
+    white-space: nowrap;
+  }
+
+  .btn-comprar {
+    background: linear-gradient(135deg, #c40000, #7a0000);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.88rem;
+    transition: 0.2s ease;
+    display: inline-block;
+  }
+
+  .btn-comprar:hover {
+    background: linear-gradient(135deg, #ff1a1a, #990000);
+    box-shadow: 0 0 12px rgba(255, 0, 0, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .col-empty {
+    text-align: center;
+    padding: 30px;
+    color: #555;
+    font-style: italic;
+  }
+</style>
+{% endblock body %}
 
     thead {
         background-color: #b10505;

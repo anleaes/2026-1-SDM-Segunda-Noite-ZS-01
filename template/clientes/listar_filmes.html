@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% block title %}Filmes em Cartaz{% endblock %}
+
+{% block body %}
+<div class="list-page">
+  <div class="list-header">
+    <h1>Filmes em Cartaz</h1>
+  </div>
+
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="alert {% if 'erro' in msg.tags or 'error' in msg.tags %}alert-error{% endif %}">{{ msg }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Cartaz</th>
+          <th>Título</th>
+          <th>Gênero</th>
+          <th>Duração</th>
+          <th>Classificação</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for filme in filmes %}
+        <tr>
+          <td>{{ filme.id }}</td>
+          <td>
+            {% if filme.cartaz %}
+              <img src="{{ filme.cartaz.url }}" alt="{{ filme.titulo }}" class="thumb">
+            {% else %}
+              <div class="no-thumb">—</div>
+            {% endif %}
+          </td>
+          <td class="col-bold">{{ filme.titulo }}</td>
+          <td>{{ filme.genero.nome }}</td>
+          <td>{{ filme.duracao }} min</td>
+          <td><span class="badge">{{ filme.classificacao }}</span></td>
+          <td class="col-actions">
+            <a href="{% url 'clientes:escolher_sessao_filme' filme.pk %}" class="btn-comprar">Comprar</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7" class="col-empty">Nenhum filme disponível no momento.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  body {
+    background-color: #0f0f0f;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+  }
+
+  .list-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 24px;
+  }
+
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+
+  .list-header h1 {
+    color: #ff2d2d;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    margin: 0;
+  }
+
+  .alert {
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background: #1a2a1a;
+    border: 1px solid #2d6a2d;
+    color: #6fcf6f;
+  }
+
+  .alert-error {
+    background: #2a1a1a;
+    border: 1px solid #6a2d2d;
+    color: #cf6f6f;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    border-radius: 14px;
+    border: 1px solid #2a2a2a;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead {
+    background: #1f1f1f;
+  }
+
+  th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ff2d2d;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 16px;
+    border-top: 1px solid #222;
+    font-size: 0.93rem;
+    vertical-align: middle;
+  }
+
+  tbody tr:hover {
+    background: #181818;
+  }
+
+  .col-bold {
+    font-weight: bold;
+  }
+
+  .thumb {
+    width: 50px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #333;
+  }
+
+  .no-thumb {
+    width: 50px;
+    height: 70px;
+    background: #2a2a2a;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    font-size: 1.1rem;
+  }
+
+  .badge {
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: #ccc;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .col-actions {
+    white-space: nowrap;
+  }
+
+  .btn-comprar {
+    background: linear-gradient(135deg, #c40000, #7a0000);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.88rem;
+    transition: 0.2s ease;
+    display: inline-block;
+  }
+
+  .btn-comprar:hover {
+    background: linear-gradient(135deg, #ff1a1a, #990000);
+    box-shadow: 0 0 12px rgba(255, 0, 0, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .col-empty {
+    text-align: center;
+    padding: 30px;
+    color: #555;
+    font-style: italic;
+  }
+</style>
+{% endblock %}
