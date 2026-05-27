@@ -34,11 +34,12 @@ def listar_filmes(request):
 
 
 def escolher_sessao(request, filme_id=None):
-    qs = Sessao.objects.select_related('filme', 'sala').filter(ativa=True)
+    todas = Sessao.objects.select_related('filme', 'sala').all()
+    qs = [s for s in todas if s.ativa]
     filme = None
     if filme_id:
         filme = Filme.objects.get(id=filme_id)
-        qs = qs.filter(filme_id=filme_id)
+        qs = [s for s in qs if s.filme_id == filme_id]
     return render(request, 'clientes/escolher_sessao.html', {'sessoes': qs, 'filme': filme})
 
 

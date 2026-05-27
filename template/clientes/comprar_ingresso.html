@@ -1,182 +1,347 @@
 {% extends 'base.html' %}
 
-{% block title %}Comprar Ingresso{% endblock title %}
+{% block title %}Comprar Ingresso — {{ sessao.filme.titulo }}{% endblock title %}
 
 {% block body %}
-<div class="form-page">
-    <div class="form-card">
-        <h1>Comprar ingresso — {{ sessao.filme.titulo }}</h1>
-        <p class="info-sessao">
-            Horário: {{ sessao.horario }} — Sala {{ sessao.sala.numero }}
+<div class="list-page">
+
+  <div class="list-header">
+    <h1>Comprar Ingresso</h1>
+    <a href="{% url 'clientes:escolher_sessao_filme' sessao.filme.pk %}" class="btn-voltar">← Voltar às Sessões</a>
+  </div>
+
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="alert {% if 'error' in msg.tags %}alert-error{% endif %}">{{ msg }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="compra-card">
+
+    <div class="filme-info">
+      {% if sessao.filme.cartaz %}
+        <img src="{{ sessao.filme.cartaz.url }}" alt="{{ sessao.filme.titulo }}" class="cartaz">
+      {% else %}
+        <div class="cartaz-placeholder">—</div>
+      {% endif %}
+      <div class="filme-detalhes">
+        <h2>{{ sessao.filme.titulo }}</h2>
+        <p><span class="label">Horário:</span> {{ sessao.horario|date:"d/m/Y H:i" }}</p>
+        <p><span class="label">Sala:</span> {{ sessao.sala.numero }}</p>
+        <p><span class="label">Duração:</span> {{ sessao.filme.duracao }} min</p>
+        <p><span class="label">Classificação:</span>
+          <span class="badge">{{ sessao.filme.classificacao }}</span>
         </p>
-        <form method="POST">
-            {% csrf_token %}
-
-            <div class="field-group">
-                <label for="cpf">CPF do cliente</label>
-                <input type="text" name="cpf" id="cpf" required>
-            </div>
-
-            <h3>Assentos disponíveis</h3>
-            {% if assentos %}
-            <div class="assentos-grid">
-                {% for a in assentos %}
-                {% if not a.status or a.status == 0 %}
-                <label class="assento-item">
-                    <input type="radio" name="assento_id" value="{{ a.id }}" required>
-                    <span>{{ a.fila }}{{ a.numero }}</span>
-                </label>
-                {% endif %}
-                {% endfor %}
-            </div>
-            <button type="submit" class="btn-acao">Confirmar compra</button>
-            {% else %}
-            <p>Sem assentos disponíveis.</p>
-            {% endif %}
-        </form>
+      </div>
     </div>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="field-group">
+        <label for="cpf">CPF do cliente</label>
+        <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00" required>
+      </div>
+
+      <h3>Escolha um assento</h3>
+
+      {% if assentos %}
+      <div class="assentos-grid">
+        {% for a in assentos %}
+          {% if not a.status or a.status == 0 %}
+          <label class="assento-item livre">
+            <input type="radio" name="assento_id" value="{{ a.id }}" required>
+            <span>{{ a.fila }}{{ a.numero }}</span>
+          </label>
+          {% else %}
+          <div class="assento-item ocupado">
+            <span>{{ a.fila }}{{ a.numero }}</span>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="legenda">
+        <span class="leg-livre"></span> Disponível &nbsp;&nbsp;
+        <span class="leg-ocupado"></span> Ocupado &nbsp;&nbsp;
+        <span class="leg-sel"></span> Selecionado
+      </div>
+
+      <button type="submit" class="btn-confirmar">Confirmar Compra</button>
+      {% else %}
+      <p class="sem-assentos">Sem assentos disponíveis para esta sessão.</p>
+      {% endif %}
+    </form>
+
+  </div>
 </div>
 
 <style>
-    body {
-        background-color: #0f0f0f;
-        font-family: Arial, Helvetica, sans-serif;
-        color: white;
-    }
+  body {
+    background-color: #0f0f0f;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+  }
 
-    .form-page {
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        padding: 50px 30px;
-    }
+  .list-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 50px 24px;
+  }
 
-    .form-card {
-        background-color: #1a1a1a;
-        width: 95%;
-        max-width: 1400px;
-        min-height: 700px;
-        padding: 40px;
-        border-radius: 14px;
-        box-shadow: 0 0 20px rgba(255, 0, 0, 0.15);
-        border: 1px solid #2a2a2a;
-    }
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+  }
 
-    .form-card h1 {
-        text-align: center;
-        color: #ff2d2d;
-        margin-bottom: 10px;
-        font-size: 2.5rem;
-        letter-spacing: 1px;
-    }
+  .list-header h1 {
+    color: #ff2d2d;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    margin: 0;
+  }
 
-    .info-sessao {
-        text-align: center;
-        color: #cfcfcf;
-        margin-bottom: 35px;
-        font-size: 1.1rem;
-    }
+  .btn-voltar {
+    background: #1f1f1f;
+    color: #ccc;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border: 1px solid #333;
+    transition: 0.2s ease;
+  }
 
-    .field-group {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 30px;
-    }
+  .btn-voltar:hover { background: #2a2a2a; color: white; }
 
-    .field-group label {
-        font-weight: bold;
-        margin-bottom: 10px;
-        color: #ffffff;
-        font-size: 1rem;
-    }
+  .alert {
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background: #1a2a1a;
+    border: 1px solid #2d6a2d;
+    color: #6fcf6f;
+  }
 
-    .field-group input {
-        padding: 14px;
-        border: 1px solid #333;
-        border-radius: 8px;
-        background-color: #111;
-        color: white;
-        font-size: 1rem;
-        transition: 0.2s ease;
-    }
+  .alert-error {
+    background: #2a1a1a;
+    border: 1px solid #6a2d2d;
+    color: #cf6f6f;
+  }
 
-    .field-group input:focus {
-        outline: none;
-        border-color: #ff2d2d;
-        box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
-    }
+  .compra-card {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 14px;
+    padding: 36px 40px;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.08);
+  }
 
-    h3 {
-        color: #ff2d2d;
-        margin-bottom: 20px;
-        font-size: 1.5rem;
-    }
 
-    .assentos-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 14px;
-        margin-bottom: 35px;
-    }
+  .filme-info {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    margin-bottom: 36px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid #2a2a2a;
+  }
 
-    .assento-item {
-        position: relative;
-    }
+  .cartaz {
+    width: 110px;
+    height: 155px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #333;
+    flex-shrink: 0;
+  }
 
-    .assento-item input[type="radio"] {
-        display: none;
-    }
+  .cartaz-placeholder {
+    width: 110px;
+    height: 155px;
+    background: #2a2a2a;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
 
-    .assento-item span {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 75px;
-        height: 55px;
-        border-radius: 10px;
-        background-color: #242424;
-        border: 2px solid #3a3a3a;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.2s ease;
-        font-size: 1rem;
-    }
+  .filme-detalhes h2 {
+    color: #ff2d2d;
+    font-size: 1.6rem;
+    margin: 0 0 14px;
+  }
 
-    .assento-item span:hover {
-        background-color: #3a0000;
-        border-color: #ff2d2d;
-        transform: scale(1.05);
-    }
+  .filme-detalhes p {
+    color: #ccc;
+    font-size: 0.97rem;
+    margin: 6px 0;
+  }
 
-    .assento-item input[type="radio"]:checked + span {
-        background: linear-gradient(135deg, #c40000, #7a0000);
-        border-color: #ff2d2d;
-        box-shadow: 0 0 12px rgba(255, 0, 0, 0.4);
-    }
+  .label {
+    color: #888;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 6px;
+  }
 
-    .btn-acao {
-        background: linear-gradient(135deg, #c40000, #7a0000);
-        color: white;
-        padding: 14px 28px;
-        border: none;
-        border-radius: 10px;
-        font-size: 1rem;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.2s ease;
-    }
+  .badge {
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: #ccc;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: bold;
+  }
 
-    .btn-acao:hover {
-        background: linear-gradient(135deg, #ff1a1a, #990000);
-        box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
-        transform: translateY(-2px);
-    }
 
-    .sem-assentos {
-        color: #cfcfcf;
-        font-size: 1rem;
-        margin-top: 20px;
-    }
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 28px;
+    max-width: 340px;
+  }
+
+  .field-group label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #fff;
+    font-size: 0.95rem;
+  }
+
+  .field-group input {
+    padding: 12px 14px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background-color: #111;
+    color: white;
+    font-size: 1rem;
+    transition: 0.2s ease;
+  }
+
+  .field-group input:focus {
+    outline: none;
+    border-color: #ff2d2d;
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.3);
+  }
+
+  h3 {
+    color: #ff2d2d;
+    font-size: 1.2rem;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ---- Assentos ---- */
+  .assentos-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .assento-item { position: relative; }
+
+  .assento-item input[type="radio"] { display: none; }
+
+  .assento-item.livre span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 68px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #242424;
+    border: 2px solid #3a3a3a;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+    font-size: 0.95rem;
+  }
+
+  .assento-item.livre span:hover {
+    background-color: #3a0000;
+    border-color: #ff2d2d;
+    transform: scale(1.06);
+  }
+
+  .assento-item.livre input[type="radio"]:checked + span {
+    background: linear-gradient(135deg, #c40000, #7a0000);
+    border-color: #ff2d2d;
+    box-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
+  }
+
+  .assento-item.ocupado span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 68px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #1a1a1a;
+    border: 2px solid #2a2a2a;
+    color: #444;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+
+  .legenda {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    color: #888;
+    margin-bottom: 28px;
+  }
+
+  .leg-livre, .leg-ocupado, .leg-sel {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    border: 2px solid #3a3a3a;
+  }
+
+  .leg-livre  { background: #242424; }
+  .leg-ocupado { background: #1a1a1a; border-color: #2a2a2a; }
+  .leg-sel    { background: linear-gradient(135deg, #c40000, #7a0000); border-color: #ff2d2d; }
+
+  .btn-confirmar {
+    background: linear-gradient(135deg, #c40000, #7a0000);
+    color: white;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+    display: block;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .btn-confirmar:hover {
+    background: linear-gradient(135deg, #ff1a1a, #990000);
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.45);
+    transform: translateY(-2px);
+  }
+
+  .sem-assentos {
+    color: #888;
+    font-style: italic;
+    margin-top: 10px;
+  }
 </style>
 {% endblock body %}

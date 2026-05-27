@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% block title %}Ingresso Confirmado{% endblock %}
+
+{% block body %}
+<div class="list-page">
+
+  <div class="confirm-card">
+
+    <div class="check-icon">✓</div>
+    <h1>Ingresso Confirmado!</h1>
+    <p class="subtitulo">Sua reserva foi realizada com sucesso.</p>
+
+    <div class="ingresso">
+      <div class="ingresso-row">
+        <span class="ing-label">Filme</span>
+        <span class="ing-valor">{{ sessao.filme.titulo }}</span>
+      </div>
+      <div class="divider"></div>
+      <div class="ingresso-row">
+        <span class="ing-label">Horário</span>
+        <span class="ing-valor">{{ sessao.horario|date:"d/m/Y H:i" }}</span>
+      </div>
+      <div class="divider"></div>
+      <div class="ingresso-row">
+        <span class="ing-label">Sala</span>
+        <span class="ing-valor">{{ sessao.sala.numero }}</span>
+      </div>
+      <div class="divider"></div>
+      <div class="ingresso-row">
+        <span class="ing-label">Assento</span>
+        <span class="ing-valor assento-destaque">{{ assento.fila }}{{ assento.numero }}</span>
+      </div>
+      <div class="divider"></div>
+      <div class="ingresso-row">
+        <span class="ing-label">Pedido Nº</span>
+        <span class="ing-valor">#{{ pedido.id }}</span>
+      </div>
+    </div>
+
+    <a href="{% url 'clientes:listar_filmes' %}" class="btn-voltar-filmes">← Ver outros filmes</a>
+
+  </div>
+
+</div>
+
+<style>
+  body {
+    background-color: #0f0f0f;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+  }
+
+  .list-page {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 60px 24px;
+  }
+
+  .confirm-card {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 16px;
+    padding: 48px 40px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.1);
+  }
+
+  .check-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #c40000, #7a0000);
+    color: white;
+    font-size: 2.2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.35);
+  }
+
+  h1 {
+    color: #ff2d2d;
+    font-size: 1.8rem;
+    margin: 0 0 10px;
+    letter-spacing: 1px;
+  }
+
+  .subtitulo {
+    color: #888;
+    font-size: 0.97rem;
+    margin-bottom: 36px;
+  }
+
+  .ingresso {
+    background: #111;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 8px 24px;
+    margin-bottom: 36px;
+    text-align: left;
+  }
+
+  .ingresso-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+  }
+
+  .divider {
+    border-top: 1px solid #222;
+  }
+
+  .ing-label {
+    color: #888;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+
+  .ing-valor {
+    color: #e5e5e5;
+    font-weight: bold;
+    font-size: 0.97rem;
+  }
+
+  .assento-destaque {
+    color: #ff2d2d;
+    font-size: 1.1rem;
+  }
+
+  .btn-voltar-filmes {
+    background: linear-gradient(135deg, #c40000, #7a0000);
+    color: white;
+    padding: 14px 32px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.97rem;
+    display: inline-block;
+    transition: 0.2s ease;
+  }
+
+  .btn-voltar-filmes:hover {
+    background: linear-gradient(135deg, #ff1a1a, #990000);
+    box-shadow: 0 0 14px rgba(255, 0, 0, 0.4);
+    transform: translateY(-2px);
+  }
+</style>
+{% endblock %}
