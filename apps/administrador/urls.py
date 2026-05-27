@@ -25,6 +25,13 @@ urlpatterns = [
     path('salas/<int:pk>/editar/', views.editar_sala, name='editar_sala'),
     path('salas/<int:pk>/inativar/', views.inativar_sala, name='inativar_sala'),
     path('salas/<int:sala_pk>/assentos/criar/', views.criar_assento, name='criar_assento'),
- 
+    path('salas/<int:sala_pk>/assentos/ativar/', views.ativar_assento, name='ativar_assento'),
+    path('salas/<int:sala_pk>/assentos/inativar/', views.inativar_assento, name='inativar_assento'),
+
+    path('generos/', views.listar_generos, name='listar_generos'),
+    path('generos/cadastrar/', views.cadastrar_genero, name='cadastrar_genero'),
+    path('generos/<int:pk>/editar/', views.editar_genero, name='editar_genero'),
+    path('generos/<int:pk>/remover/', views.remover_genero, name='remover_genero'),
+
     path('', include(router.urls)),
 ]
