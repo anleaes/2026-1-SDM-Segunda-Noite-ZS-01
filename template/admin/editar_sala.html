@@ -3,5 +3,11 @@
 
 {% block body %}
 <div class="form-page">
+  <div class="form-card">
+    <h1>Editar Sala</h1>
+    <form method="POST">
+      {% csrf_token %}
+    </form>
+  </div>
 </div>
 {% endblock body %}
