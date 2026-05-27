@@ -133,6 +133,41 @@
     cursor: pointer;
   }
 
+  /* --- MUDANÇAS DESTE COMMIT ABAIXO --- */
+  
+  .checkbox-group {
+    flex-direction: row;
+    align-items: center;
+    background: #111;
+    padding: 16px 20px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    gap: 15px;
+  }
+
+  .checkbox-label {
+    font-weight: bold;
+    color: #ccc;
+    font-size: 1rem;
+  }
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 54px;
+    height: 28px;
+    margin-bottom: 0 !important;
+  }
+
+  /* Ocultamos o checkbox real, mas ele continua a receber os cliques */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* --- FIM DAS MUDANÇAS --- */
+
   .row-group {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -158,12 +193,6 @@
     transition: 0.2s ease;
   }
 
-  .btn-submit:hover {
-    background: linear-gradient(135deg, #ff1a1a, #990000);
-    box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
-    transform: translateY(-2px);
-  }
-
   .btn-secondary {
     flex: 1;
     background: #2a2a2a;
@@ -179,17 +208,6 @@
     align-items: center;
     justify-content: center;
     transition: 0.2s ease;
-  }
-
-  .btn-secondary:hover {
-    background: #333;
-    color: white;
-  }
-
-  @media (max-width: 600px) {
-    .row-group {
-      grid-template-columns: 1fr;
-    }
   }
 </style>
 {% endblock body %}
