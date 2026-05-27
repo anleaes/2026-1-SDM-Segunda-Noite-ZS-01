@@ -25,7 +25,7 @@
             <option value="" disabled>Selecione a sala</option>
             {% for s in salas %}
               <option value="{{ s.pk }}" {% if s.pk == sessao.sala.pk %}selected{% endif %}>
-                {{ s.nome }}
+                Sala {{ s.numero }}
               </option>
             {% endfor %}
           </select>
