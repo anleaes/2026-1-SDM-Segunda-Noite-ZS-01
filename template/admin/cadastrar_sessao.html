@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Cadastrar Sessão{% endblock title %}
+
+{% block body %}
+<div class="form-page">
+  <div class="form-card">
+    <h1>Cadastrar Sessão</h1>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="field-group">
+        <label>Filme</label>
+        <select name="filme" required>
+          <option value="" disabled selected>Selecione o filme</option>
+          {% for f in filmes %}
+            <option value="{{ f.pk }}">{{ f.titulo }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="row-group">
+        <div class="field-group">
+          <label>Sala</label>
+          <select name="sala" required>
+            <option value="" disabled selected>Selecione a sala</option>
+            {% for s in salas %}
+              <option value="{{ s.pk }}">{{ s.nome }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label>Horário</label>
+          <input
+            type="datetime-local"
+            name="horario"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <a href="{% url 'administrador:listar_sessoes' %}" class="btn-secondary">
+          Cancelar
+        </a>
+
+        <button type="submit" class="btn-submit">Cadastrar Sessão</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock body %}
