@@ -24,7 +24,6 @@ def cadastrar(request):
             email=request.POST.get('email'),
             senha=request.POST.get('senha'),
             nivel_acesso=request.POST.get('nivel_acesso'),
-            matricula=request.POST.get('matricula'),
         )
         return redirect('usuarios:login')
     return render(request, template_name)
@@ -91,10 +90,56 @@ def remover_filme(request, pk):
 
     return redirect('administrador:listar_filmes')
 
+
+def listar_generos(request):
+    generos = Genero.objects.all().order_by('nome')
+    return render(request, 'admin/listar_genero.html', {'generos': generos})
+
+
+def cadastrar_genero(request):
+    template_name = 'admin/cadastrar_genero.html'
+    if request.method == 'POST':
+        Genero.objects.create(
+            nome=request.POST.get('nome'),
+            descricao=request.POST.get('descricao'),
+            icone=request.POST.get('icone')
+        )
+        messages.success(request, 'Gênero cadastrado com sucesso!')
+        return redirect('administrador:listar_generos')
+
+    return render(request, template_name)
+
+
+def editar_genero(request, pk):
+    genero = get_object_or_404(Genero, pk=pk)
+    template_name = 'admin/editar_genero.html'
+
+    if request.method == 'POST':
+        genero.nome = request.POST.get('nome')
+        genero.descricao = request.POST.get('descricao')
+        genero.icone = request.POST.get('icone')
+        genero.save()
+
+        messages.success(request, 'Gênero atualizado com sucesso!')
+        return redirect('administrador:listar_generos')
+
+    return render(request, template_name, {'genero': genero})
+
+
+def remover_genero(request, pk):
+    genero = get_object_or_404(Genero, pk=pk)
+    if request.method == 'POST':
+        nome = genero.nome
+        genero.delete()
+        messages.success(request, f'Gênero "{nome}" removido com sucesso!')
+
+    return redirect('administrador:listar_generos')
+
 def cadastrar_sessao(request):
     template_name = 'admin/cadastrar_sessao.html'
 
-    salas = Sala.objects.filter(ativo=True)
+    salas = Sala.objects.all()
+    filmes = Filme.objects.all()
 
     if request.method == 'POST':
 
@@ -112,7 +157,8 @@ def cadastrar_sessao(request):
         return redirect('administrador:listar_sessoes')
 
     return render(request, template_name, {
-        'salas': salas
+        'salas': salas,
+        'filmes': filmes
     })
 
 def listar_sessoes(request):
@@ -124,28 +170,6 @@ def listar_sessoes(request):
 
     return render(request, 'admin/listar_sessao.html', {
         'sessoes': sessoes
-    })
-
-def editar_sessao(request, pk):
-    sessao = get_object_or_404(Sessao, pk=pk)
-
-    salas = Sala.objects.filter(ativo=True)
-    filmes = Filme.objects.all()
-
-    if request.method == 'POST':
-        sessao.horario = request.POST.get('horario')
-        sessao.filme_id = request.POST.get('filme')
-        sessao.sala_id = request.POST.get('sala')
-
-        sessao.save()
-
-        messages.success(request, 'Sessão atualizada com sucesso!')
-        return redirect('administrador:listar_sessoes')
-
-    return render(request, 'admin/editar_sessao.html', {
-        'sessao': sessao,
-        'salas': salas,
-        'filmes': filmes
     })
 
 def inativar_sessao(request, pk):
@@ -163,58 +187,144 @@ def cadastrar_sala(request):
     template_name = 'admin/cadastrar_sala.html'
     if request.method == 'POST':
         Sala.objects.create(
-            nome=request.POST.get('nome'),
+            numero=request.POST.get('numero'),
             capacidade=request.POST.get('capacidade'),
-            tipo=request.POST.get('tipo'),
+            sala3D=request.POST.get('sala3D') == 'on'
         )
         messages.success(request, 'Sala cadastrada com sucesso!')
         return redirect('administrador:listar_salas')
     return render(request, template_name)
 
 def listar_salas(request):
-    salas = Sala.objects.all().order_by('nome')
+    salas = Sala.objects.all().order_by('numero')
     return render(request, 'admin/listar_sala.html', {'salas': salas})
 
-def editar_sala(request, pk):
-    sala = get_object_or_404(Sala, pk=pk)
-    template_name = 'admin/editar_sala.html'
-    if request.method == 'POST':
-        sala.nome = request.POST.get('nome', sala.nome)
-        sala.capacidade = request.POST.get('capacidade', sala.capacidade)
-        sala.tipo = request.POST.get('tipo', sala.tipo)
-        sala.save()
-        messages.success(request, 'Sala atualizada com sucesso!')
-        return redirect('administrador:listar_salas')
-    return render(request, template_name, {'sala': sala})
+def editar_sessao(request, pk):
+    sessao = get_object_or_404(Sessao, pk=pk)
 
+    filmes = Filme.objects.all()
+    salas = Sala.objects.all()
+
+    if request.method == 'POST':
+        sessao.horario = request.POST.get('horario')
+        sessao.filme_id = request.POST.get('filme')
+        sessao.sala_id = request.POST.get('sala')
+
+        sessao.save()
+
+        messages.success(request, 'Sessão atualizada com sucesso!')
+        return redirect('administrador:listar_sessoes')
+
+    return render(request, 'admin/editar_sessao.html', {
+        'sessao': sessao,
+        'filmes': filmes,
+        'salas': salas
+    })
 
 def inativar_sala(request, pk):
     sala = get_object_or_404(Sala, pk=pk)
     if request.method == 'POST':
-        sala.ativo = False
-        sala.save()
-        messages.success(request, f'Sala "{sala.nome}" inativada.')
+        has_sessoes = sala.sessoes.exists()
+        has_ingressos_em_assentos = sala.assentos.filter(ingresso__isnull=False).exists()
+
+        if has_sessoes or has_ingressos_em_assentos:
+            messages.error(
+                request,
+                f'Não é possível remover a sala {sala.numero}: existem sessões ou assentos vinculados a ingressos.'
+            )
+        else:
+            sala.delete()
+            messages.success(request, f'Sala "{sala.numero}" removida.')
     return redirect('administrador:listar_salas')
 
+def editar_sala(request, pk):
+    sala = get_object_or_404(Sala, pk=pk)
 
+    template_name = 'admin/editar_sala.html'
+
+    if request.method == 'POST':
+        sala.numero = request.POST.get('numero')
+        sala.capacidade = request.POST.get('capacidade')
+        sala.sala3D = request.POST.get('sala3D') == 'on'
+
+        sala.save()
+
+        messages.success(request, 'Sala atualizada com sucesso!')
+        return redirect('administrador:listar_salas')
+
+    return render(request, template_name, {
+        'sala': sala
+    })
 def criar_assento(request, sala_pk):
     sala = get_object_or_404(Sala, pk=sala_pk)
-    template_name = 'admin/criar_assento.html'
+
     if request.method == 'POST':
+
         fileiras = request.POST.get('fileiras', '').upper()
         colunas = int(request.POST.get('colunas', 0))
-        tipo = request.POST.get('tipo', 'PADRAO')
+
         assentos_criados = 0
+
         for letra in fileiras:
             for numero in range(1, colunas + 1):
-                codigo = f'{letra}{numero}'
+
                 _, created = Assento.objects.get_or_create(
-                    sala=sala,
-                    codigo=codigo,
-                    defaults={'tipo': tipo, 'disponivel': True},
+                    id_sala=sala,
+                    fila=letra,
+                    numero=numero
                 )
+
                 if created:
                     assentos_criados += 1
-        messages.success(request, f'{assentos_criados} assento(s) criado(s) para a sala {sala.nome}.')
+
+        messages.success(
+            request,
+            f'{assentos_criados} assento(s) criado(s) para a sala {sala.numero}.'
+        )
+
         return redirect('administrador:listar_salas')
-    return render(request, template_name, {'sala': sala})
+
+    return render(request, 'admin/criar_assento.html', {
+        'sala': sala
+    })
+
+def inativar_assento(request, pk):
+    assento = get_object_or_404(Assento, pk=pk)
+
+    if request.method == 'POST':
+
+        try:
+            ingresso = assento.ingresso
+        except Exception:
+            ingresso = None
+
+        if ingresso and ingresso.status != 'cancelado':
+            messages.error(
+                request,
+                f'Não é possível inativar o assento {assento.fila}{assento.numero}: existe um ingresso ativo.'
+            )
+        else:
+            assento.status = False
+            assento.save()
+
+            messages.success(
+                request,
+                f'Assento {assento.fila}{assento.numero} inativado com sucesso!'
+            )
+
+    return redirect('administrador:listar_salas')
+
+def ativar_assento(request, pk):
+    assento = get_object_or_404(Assento, pk=pk)
+
+    if request.method == 'POST':
+
+        assento.status = True
+        assento.save()
+
+        messages.success(
+            request,
+            f'Assento {assento.fila}{assento.numero} ativado com sucesso!'
+        )
+
+    return redirect('administrador:listar_salas')
