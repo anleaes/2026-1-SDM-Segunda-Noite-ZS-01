@@ -7,6 +7,16 @@
     <h1>Editar Sala</h1>
     <form method="POST">
       {% csrf_token %}
+      <div class="row-group">
+        <div class="field-group">
+          <label>Identificação / Número</label>
+          <input type="text" name="numero" value="{{ sala.numero }}" required />
+        </div>
+        <div class="field-group">
+          <label>Capacidade (Assentos)</label>
+          <input type="number" name="capacidade" value="{{ sala.capacidade }}" min="1" required />
+        </div>
+      </div>
     </form>
   </div>
 </div>
