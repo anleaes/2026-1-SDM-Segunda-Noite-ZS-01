@@ -18,6 +18,28 @@
           {% endfor %}
         </select>
       </div>
+      <div class="row-group">
+        <div class="field-group">
+          <label>Sala</label>
+          <select name="sala" required>
+            <option value="" disabled>Selecione a sala</option>
+            {% for s in salas %}
+              <option value="{{ s.pk }}" {% if s.pk == sessao.sala.pk %}selected{% endif %}>
+                {{ s.nome }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Horário</label>
+          <input
+            type="datetime-local"
+            name="horario"
+            value="{{ sessao.horario|date:'Y-m-d\TH:i' }}"
+            required
+          />
+        </div>
+      </div>
     </form>
   </div>
 </div>
