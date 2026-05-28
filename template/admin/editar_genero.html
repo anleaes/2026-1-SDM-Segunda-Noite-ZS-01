@@ -11,6 +11,14 @@
         <label>Nome</label>
         <input type="text" name="nome" value="{{ genero.nome }}" required />
       </div>
+      <div class="field-group">
+        <label>Descrição</label>
+        <textarea name="descricao" rows="4">{{ genero.descricao }}</textarea>
+      </div>
+      <div class="field-group">
+        <label>Ícone</label>
+        <input type="text" name="icone" value="{{ genero.icone }}" />
+      </div>
     </form>
   </div>
 </div>
