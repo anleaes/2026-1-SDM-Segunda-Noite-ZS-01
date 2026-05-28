@@ -15,6 +15,15 @@ class AdministradorViewSet(viewsets.ModelViewSet):
     queryset = Administrador.objects.all()
     serializer_class = AdministradorSerializer
 
+
+def admin_required(view_func):
+    def _wrapped(request, *args, **kwargs):
+        if request.session.get('usuario_tipo') != 'administrador':
+            return redirect('usuarios:login')
+        return view_func(request, *args, **kwargs)
+    return _wrapped
+
+
 def cadastrar(request):
     template_name = 'admin/cadastrar.html'
     if request.method == 'POST':
@@ -255,6 +264,7 @@ def editar_sala(request, pk):
     return render(request, template_name, {
         'sala': sala
     })
+
 def criar_assento(request, sala_pk):
     sala = get_object_or_404(Sala, pk=sala_pk)
 
