@@ -17,7 +17,6 @@ Admin
 http://127.0.0.1:8000/administrador/filmes/
 
 Admin (rotas MVT completas)
-http://127.0.0.1:8000/administrador/
 http://127.0.0.1:8000/administrador/cadastrar/
 http://127.0.0.1:8000/administrador/filmes/
 http://127.0.0.1:8000/administrador/filmes/cadastrar/
@@ -75,3 +74,4 @@ http://127.0.0.1:8000/ingresso/api/
 http://127.0.0.1:8000/ingresso/api/<pk>/
 http://127.0.0.1:8000/generos/
 http://127.0.0.1:8000/generos/<pk>/
+http://127.0.0.1:8000/administrador/
