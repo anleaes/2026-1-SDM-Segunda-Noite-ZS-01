@@ -134,5 +134,57 @@
   tbody tr:hover {
     background: #181818;
   }
+
+  .col-bold {
+    font-weight: bold;
+    color: #fff;
+  }
+
+  .col-empty {
+    text-align: center;
+    color: #555;
+    padding: 40px;
+  }
+
+  .col-actions {
+    white-space: nowrap;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .btn-edit {
+    background: #1e2e1e;
+    border: 1px solid #2d6a2d;
+    color: #6fcf6f;
+    padding: 6px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: bold;
+    transition: 0.15s ease;
+  }
+
+  .btn-edit:hover {
+    background: #2d6a2d;
+    color: white;
+  }
+
+  .btn-delete {
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: #ccc;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.15s ease;
+  }
+
+  .btn-delete:hover {
+    background: #444;
+    color: white;
+  }
 </style>
 {% endblock body %}
