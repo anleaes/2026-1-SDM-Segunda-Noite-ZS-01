@@ -13,7 +13,8 @@ urlpatterns = [
     path('filmes/', views.listar_filmes, name='listar_filmes'),
     path('filmes/cadastrar/', views.cadastrar_filme, name='cadastrar_filme'),
     path('filmes/<int:pk>/editar/', views.editar_filme, name='editar_filme'),
- 
+    path('filmes/remover/<int:pk>/', views.remover_filme, name='remover_filme'),
+
     path('sessoes/', views.listar_sessoes, name='listar_sessoes'),
     path('sessoes/cadastrar/', views.cadastrar_sessao, name='cadastrar_sessao'),
     path('sessoes/<int:pk>/editar/', views.editar_sessao, name='editar_sessao'),
@@ -24,6 +25,13 @@ urlpatterns = [
     path('salas/<int:pk>/editar/', views.editar_sala, name='editar_sala'),
     path('salas/<int:pk>/inativar/', views.inativar_sala, name='inativar_sala'),
     path('salas/<int:sala_pk>/assentos/criar/', views.criar_assento, name='criar_assento'),
- 
+    path('salas/<int:sala_pk>/assentos/ativar/', views.ativar_assento, name='ativar_assento'),
+    path('salas/<int:sala_pk>/assentos/inativar/', views.inativar_assento, name='inativar_assento'),
+
+    path('generos/', views.listar_generos, name='listar_generos'),
+    path('generos/cadastrar/', views.cadastrar_genero, name='cadastrar_genero'),
+    path('generos/<int:pk>/editar/', views.editar_genero, name='editar_genero'),
+    path('generos/<int:pk>/remover/', views.remover_genero, name='remover_genero'),
+
     path('', include(router.urls)),
 ]

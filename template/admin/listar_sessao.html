@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-{% block title %}Filmes{% endblock %}
+{% block title %}Sessões{% endblock title %}
 
 {% block body %}
 <div class="list-page">
   <div class="list-header">
-    <h1>Filmes</h1>
-    <a href="{% url 'administrador:cadastrar_filme' %}" class="btn-novo">+ Novo Filme</a>
+    <h1>Sessões</h1>
+    <a href="{% url 'administrador:cadastrar_sessao' %}" class="btn-novo">+ Nova Sessão</a>
   </div>
 
   {% if messages %}
@@ -17,40 +17,40 @@
       <thead>
         <tr>
           <th>#</th>
-          <th>Cartaz</th>
-          <th>Título</th>
-          <th>Gênero</th>
-          <th>Duração</th>
-          <th>Classificação</th>
+          <th>Filme</th>
+          <th>Sala</th>
+          <th>Horário</th>
+          <th>Status</th>
           <th>Ações</th>
         </tr>
       </thead>
       <tbody>
-        {% for filme in filmes %}
+        {% for sessao in sessoes %}
         <tr>
-          <td>{{ filme.id }}</td>
+          <td>{{ sessao.id }}</td>
+          <td class="col-bold">{{ sessao.filme.titulo }}</td>
+          <td>Sala {{ sessao.sala.numero }}</td>
+          <td>{{ sessao.horario|date:"d/m/Y H:i" }}</td>
           <td>
-            {% if filme.cartaz %}
-              <img src="{{ filme.cartaz.url }}" alt="{{ filme.titulo }}" class="thumb">
+            {% if sessao.ativa %}
+              <span class="badge badge-active">Ativa</span>
             {% else %}
-              <div class="no-thumb">—</div>
+              <span class="badge badge-inactive">Inativa</span>
             {% endif %}
           </td>
-          <td class="col-bold">{{ filme.titulo }}</td>
-          <td>{{ filme.genero.nome }}</td>
-          <td>{{ filme.duracao }} min</td>
-          <td><span class="badge">{{ filme.classificacao }}</span></td>
           <td class="col-actions">
-            <a href="{% url 'administrador:editar_filme' filme.pk %}" class="btn-edit">Editar</a>
-            <form method="POST" action="{% url 'administrador:remover_filme' filme.pk %}" style="display:inline">
+            <a href="{% url 'administrador:editar_sessao' sessao.pk %}" class="btn-edit">Editar</a>
+            <form method="POST" action="{% url 'administrador:inativar_sessao' sessao.pk %}" style="display:inline">
               {% csrf_token %}
               <button type="submit" class="btn-delete"
-                onclick="return confirm('Remover o filme {{ filme.titulo }}? Esta ação não pode ser desfeita.')">Remover</button>
+                onclick="return confirm('Mudar o status da sessão do filme {{ sessao.filme.titulo }}?')">
+                Inativar/Ativar
+              </button>
             </form>
           </td>
         </tr>
         {% empty %}
-        <tr><td colspan="7" class="col-empty">Nenhum filme cadastrado.</td></tr>
+        <tr><td colspan="6" class="col-empty">Nenhuma sessão cadastrada.</td></tr>
         {% endfor %}
       </tbody>
     </table>
@@ -164,35 +164,24 @@
     align-items: center;
   }
 
-  .thumb {
-    width: 42px;
-    height: 58px;
-    object-fit: cover;
-    border-radius: 5px;
-    border: 1px solid #333;
-    display: block;
-  }
-
-  .no-thumb {
-    width: 42px;
-    height: 58px;
-    background: #222;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #555;
-    font-size: 0.85rem;
-  }
-
   .badge {
-    background: #2a2a2a;
-    border: 1px solid #444;
-    color: #ccc;
-    padding: 3px 10px;
+    padding: 4px 12px;
     border-radius: 20px;
-    font-size: 0.78rem;
+    font-size: 0.8rem;
     font-weight: bold;
+    display: inline-block;
+  }
+
+  .badge-active {
+    background: #1e2e1e;
+    color: #6fcf6f;
+    border: 1px solid #2d6a2d;
+  }
+
+  .badge-inactive {
+    background: #2e1e1e;
+    color: #ff6b6b;
+    border: 1px solid #7a0000;
   }
 
   .btn-edit {
@@ -213,9 +202,9 @@
   }
 
   .btn-delete {
-    background: #2e1e1e;
-    border: 1px solid #7a0000;
-    color: #ff6b6b;
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: #ccc;
     padding: 6px 14px;
     border-radius: 8px;
     font-size: 0.82rem;
@@ -225,9 +214,8 @@
   }
 
   .btn-delete:hover {
-    background: #7a0000;
+    background: #444;
     color: white;
   }
 </style>
-
-{% endblock %}
+{% endblock body %}
