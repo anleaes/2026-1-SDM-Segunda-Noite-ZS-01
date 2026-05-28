@@ -3,5 +3,13 @@
 
 {% block body %}
 <div class="list-page">
+  <div class="list-header">
+    <h1>Gêneros</h1>
+    <a href="{% url 'administrador:cadastrar_genero' %}" class="btn-novo">+ Novo Gênero</a>
+  </div>
+
+  {% if messages %}
+    {% for msg in messages %}<div class="alert">{{ msg }}</div>{% endfor %}
+  {% endif %}
 </div>
 {% endblock body %}
