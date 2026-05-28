@@ -7,6 +7,10 @@
     <h1>Cadastrar Gênero</h1>
     <form method="POST">
       {% csrf_token %}
+      <div class="field-group">
+        <label>Nome</label>
+        <input type="text" name="nome" placeholder="Ex: Ação, Comédia..." required />
+      </div>
     </form>
   </div>
 </div>
