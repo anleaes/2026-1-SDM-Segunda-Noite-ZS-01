@@ -19,6 +19,10 @@
         <label>Ícone</label>
         <input type="text" name="icone" value="{{ genero.icone }}" />
       </div>
+      <div class="btn-row">
+        <a href="{% url 'administrador:listar_generos' %}" class="btn-secondary">Cancelar</a>
+        <button type="submit" class="btn-submit">Salvar Alterações</button>
+      </div>
     </form>
   </div>
 </div>
