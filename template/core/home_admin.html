@@ -1,0 +1,45 @@
+<div class="home-panel">
+    <h2>Área administrativa</h2>
+    <p>Você pode gerenciar filmes, sessões, salas, gêneros e assentos.</p>
+    <div class="home-grid">
+        <a href="{% url 'administrador:listar_filmes' %}"><button type="button" class="btn-action">Listar filmes</button></a>
+        <a href="{% url 'administrador:listar_sessoes' %}"><button type="button" class="btn-action">Listar sessões</button></a>
+        <a href="{% url 'administrador:listar_salas' %}"><button type="button" class="btn-action">Listar salas</button></a>
+        <a href="{% url 'administrador:listar_generos' %}"><button type="button" class="btn-action">Listar gêneros</button></a>
+        <a href="{% url 'administrador:cadastrar_filme' %}"><button type="button" class="btn-action">Cadastrar filme</button></a>
+        <a href="{% url 'usuarios:logout' %}"><button type="button" class="btn-action">Sair</button></a>
+    </div>
+</div>
+
+<style>
+    .home-panel { 
+        display:grid; gap:14px;
+    }
+    .home-panel h2 { 
+        margin:0; 
+        font-size:1.1rem; color:#ff6b6b; 
+    }
+    .home-panel p { 
+        margin:0; 
+        color:#d1d5db; 
+    }
+    .home-grid { 
+        display:grid; 
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+        gap:12px; }
+    .btn-action { 
+        width:100%; 
+        background:linear-gradient(135deg,#c40000,#7a0000);
+        color:#fff;
+        border:none;
+        border-radius:10px;
+        padding:12px; 
+        font-weight:bold; 
+        cursor:pointer; 
+        transition:0.2s ease; }
+    .btn-action:hover { 
+        background:linear-gradient(135deg,#ff1a1a,#990000); 
+        box-shadow:0 0 15px rgba(255,0,0,0.4); 
+        transform:translateY(-2px); 
+    }
+</style>
