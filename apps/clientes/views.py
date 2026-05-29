@@ -12,6 +12,15 @@ class ClienteViewSet(viewsets.ModelViewSet):
     queryset = Cliente.objects.all()
     serializer_class = ClientesSerializer
 
+
+def cliente_required(view_func):
+    def _wrapped(request, *args, **kwargs):
+        if request.session.get('usuario_tipo') != 'cliente':
+            return redirect('usuarios:login')
+        return view_func(request, *args, **kwargs)
+    return _wrapped
+
+
 def cadastrar(request):
     template_name = 'clientes/cadastrar.html'
     
@@ -65,7 +74,7 @@ def comprar_ingresso(request, sessao_id):
         pedido = Pedido.objects.create(cliente=cliente)
 
         try:
-            assento = Assento.objects.get(id=assento_id, id_sala=sessao.sala)  # removido status=False
+            assento = Assento.objects.get(id=assento_id, id_sala=sessao.sala)
             if assento.status and assento.status != 0:  # já ocupado
                 messages.error(request, 'Assento indisponível. Escolha outro.')
                 return redirect('clientes:comprar_ingresso', sessao_id=sessao.id)
