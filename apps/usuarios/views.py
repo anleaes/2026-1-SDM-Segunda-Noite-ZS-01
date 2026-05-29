@@ -56,5 +56,5 @@ def login(request):
 
 
 def logout(request):
-    request.session.flush()
+    request.session.clear()
     return redirect('usuarios:login')

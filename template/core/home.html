@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock title %}
+
+{% block body %}
+<div class="form-page">
+    <div class="form-card home-card">
+        <h1>Bem-vindo ao sistema de cinema</h1>
+        <p class="subtitle">
+            {% if usuario_tipo == 'administrador' %}
+                Você está autenticado como administrador com token de sessão ativo.
+            {% elif usuario_tipo == 'cliente' %}
+                Você está autenticado como cliente com token de sessão ativo.
+            {% else %}
+                Faça login para acessar sua área de usuário.
+            {% endif %}
+        </p>
+
+        {% if usuario_tipo == 'administrador' %}
+            {% include 'core/home_admin.html' %}
+        {% elif usuario_tipo == 'cliente' %}
+            {% include 'core/home_cliente.html' %}
+        {% else %}
+            <div class="home-actions">
+                <a href="{% url 'usuarios:login' %}"><button type="button" class="btn-action">Entrar</button></a>
+                <a href="{% url 'clientes:cadastrar' %}"><button type="button" class="btn-action">Criar conta de cliente</button></a>
+                <a href="{% url 'administrador:cadastrar' %}"><button type="button" class="btn-action">Criar conta de administrador</button></a>
+            </div>
+        {% endif %}
+
+        {% if token %}
+            <p class="token-box">Token da sessão: {{ token }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #0f0f0f;
+        font-family: Arial, Helvetica, sans-serif;
+        color: white;
+    }
+
+    .form-page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 50px 20px;
+    }
+
+    .form-card {
+        background-color: #1a1a1a;
+        width: 100%;
+        max-width: 980px;
+        padding: 40px;
+        border-radius: 16px;
+        border: 1px solid #2a2a2a;
+        box-shadow: 0 0 25px rgba(255, 0, 0, 0.15);
+    }
+
+    .home-card h1 {
+        text-align: center;
+        color: #ff2d2d;
+        margin-bottom: 10px;
+        font-size: 2rem;
+        letter-spacing: 1px;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #d1d5db;
+        margin-bottom: 18px;
+    }
+
+    .home-actions {
+        display: grid;
+        gap: 12px;
+    }
+
+    .btn-action {
+        width: 100%;
+        background: linear-gradient(135deg, #c40000, #7a0000);
+        color: white;
+        border: none;
+        padding: 14px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .btn-action:hover {
+        background: linear-gradient(135deg, #ff1a1a, #990000);
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+        transform: translateY(-2px);
+    }
+
+    .token-box {
+        margin-top: 16px;
+        font-size: 0.95rem;
+        color: #fca5a5;
+        word-break: break-all;
+    }
+</style>
+{% endblock body %}
