@@ -7,14 +7,21 @@
     <div class="form-card">
         <h1>Entrar</h1>
         {% if erro %}
-            <div style="color: #b91c1c; text-align: center; margin-bottom: 14px;">{{ erro }}</div>
+            <div class="error-box">{{ erro }}</div>
         {% endif %}
         <form method="POST">
             {% csrf_token %}
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="senha" placeholder="Senha" required>
-            <button type="submit">Entrar</button>
+            <div class="field-group">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="Digite seu email" required autofocus>
+            </div>
+            <div class="field-group">
+                <label>Senha</label>
+                <input type="password" name="senha" placeholder="Digite sua senha" required>
+            </div>
+            <button type="submit" class="btn-action">Entrar</button>
         </form>
+        <p class="helper-text">Ainda não tem conta? <a href="{% url 'clientes:cadastrar' %}">Cadastre-se</a></p>
     </div>
 </div>
 <style>
