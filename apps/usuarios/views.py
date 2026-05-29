@@ -24,11 +24,11 @@ def _gerar_token(usuario):
 
 def login(request):
     template_name = 'usuarios/login.html'
-    
+
     if request.method == 'POST':
         email = request.POST.get('email')
         senha = request.POST.get('senha')
-        
+
         usuario = None
         for Model in [Cliente, Administrador]:
             try:
@@ -36,17 +36,22 @@ def login(request):
                 break
             except Model.DoesNotExist:
                 continue
-        
+
         if usuario is None:
             return render(request, template_name, {'erro': 'Usuário não encontrado'})
-        
+
         if usuario.login(senha):
-            request.session['usuario_id'] = usuario.id
-            request.session['usuario_nome'] = usuario.nome
-            return redirect('usuarios:home')
-        
+            request.session.update({
+                'usuario_id': usuario.id,
+                'usuario_nome': usuario.nome,
+                'usuario_email': usuario.email,
+                'usuario_tipo': _tipo_usuario(usuario),
+                'token': _gerar_token(usuario),
+            })
+            return redirect('core:home')
+
         return render(request, template_name, {'erro': 'Senha incorreta'})
-    
+
     return render(request, template_name)
 
 
