@@ -37,11 +37,13 @@ def cadastrar(request):
     return render(request, template_name)
 
 
+@cliente_required
 def listar_filmes(request):
     filmes = Filme.objects.select_related('genero').all()
     return render(request, 'clientes/listar_filmes.html', {'filmes': filmes})
 
 
+@cliente_required
 def escolher_sessao(request, filme_id=None):
     todas = Sessao.objects.select_related('filme', 'sala').all()
     qs = [s for s in todas if s.ativa]
@@ -52,6 +54,7 @@ def escolher_sessao(request, filme_id=None):
     return render(request, 'clientes/escolher_sessao.html', {'sessoes': qs, 'filme': filme})
 
 
+@cliente_required
 def comprar_ingresso(request, sessao_id):
     sessao = Sessao.objects.select_related('filme', 'sala').get(id=sessao_id)
     assentos = Assento.objects.filter(id_sala=sessao.sala).order_by('fila', 'numero')
