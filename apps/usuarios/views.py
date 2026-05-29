@@ -1,3 +1,5 @@
+import hashlib
+
 from django.shortcuts import render, redirect
 from clientes.models import Cliente
 from administrador.models import Administrador
@@ -9,6 +11,15 @@ from rest_framework import viewsets
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
+
+
+def _tipo_usuario(usuario):
+    return 'administrador' if isinstance(usuario, Administrador) else 'cliente'
+
+
+def _gerar_token(usuario):
+    texto = f"{usuario.email}:{usuario.id}:{_tipo_usuario(usuario)}:{usuario.nome}"
+    return hashlib.sha256(texto.encode('utf-8')).hexdigest()
 
 
 def login(request):
