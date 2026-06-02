@@ -25,7 +25,7 @@ def admin_required(view_func):
     return _wrapped
 
 
-@admin_required
+
 def cadastrar(request):
     template_name = 'admin/cadastrar.html'
     if request.method == 'POST':
@@ -39,7 +39,7 @@ def cadastrar(request):
         return redirect('usuarios:login')
     return render(request, template_name)
 
-@admin_required
+
 def cadastrar_filme(request):
     template_name = 'admin/cadastrar_filme.html'
     generos = Genero.objects.all()
@@ -60,13 +60,13 @@ def cadastrar_filme(request):
         'generos': generos
     })
 
-@admin_required
+
 def listar_filmes(request):
     filmes = Filme.objects.all().order_by('-id')
     return render(request, 'admin/listar_filme.html', {'filmes': filmes})
 
 
-@admin_required
+
 def editar_filme(request, pk):
     filme = get_object_or_404(Filme, pk=pk)
     generos = Genero.objects.all()
@@ -92,7 +92,7 @@ def editar_filme(request, pk):
         'generos': generos
     })
 
-@admin_required
+
 def remover_filme(request, pk):
     filme = get_object_or_404(Filme, pk=pk)
 
@@ -106,7 +106,7 @@ def remover_filme(request, pk):
     return redirect('administrador:listar_filmes')
 
 
-@admin_required
+
 def listar_generos(request):
     generos = Genero.objects.all().order_by('nome')
     return render(request, 'admin/listar_genero.html', {'generos': generos})
@@ -126,7 +126,7 @@ def cadastrar_genero(request):
     return render(request, template_name)
 
 
-@admin_required
+
 def editar_genero(request, pk):
     genero = get_object_or_404(Genero, pk=pk)
     template_name = 'admin/editar_genero.html'
@@ -143,7 +143,7 @@ def editar_genero(request, pk):
     return render(request, template_name, {'genero': genero})
 
 
-@admin_required
+
 def remover_genero(request, pk):
     genero = get_object_or_404(Genero, pk=pk)
     if request.method == 'POST':
@@ -153,7 +153,7 @@ def remover_genero(request, pk):
 
     return redirect('administrador:listar_generos')
 
-@admin_required
+
 def cadastrar_sessao(request):
     template_name = 'admin/cadastrar_sessao.html'
 
@@ -180,7 +180,7 @@ def cadastrar_sessao(request):
         'filmes': filmes
     })
 
-@admin_required
+
 def listar_sessoes(request):
     sessoes = Sessao.objects.select_related(
         'filme',
@@ -192,7 +192,6 @@ def listar_sessoes(request):
         'sessoes': sessoes
     })
 
-@admin_required
 def inativar_sessao(request, pk):
     sessao = get_object_or_404(Sessao, pk=pk)
 
@@ -204,7 +203,6 @@ def inativar_sessao(request, pk):
 
     return redirect('administrador:listar_sessoes')
 
-@admin_required
 def cadastrar_sala(request):
     template_name = 'admin/cadastrar_sala.html'
     if request.method == 'POST':
@@ -217,12 +215,10 @@ def cadastrar_sala(request):
         return redirect('administrador:listar_salas')
     return render(request, template_name)
 
-@admin_required
 def listar_salas(request):
     salas = Sala.objects.all().order_by('numero')
     return render(request, 'admin/listar_sala.html', {'salas': salas})
 
-@admin_required
 def editar_sessao(request, pk):
     sessao = get_object_or_404(Sessao, pk=pk)
 
@@ -245,7 +241,6 @@ def editar_sessao(request, pk):
         'salas': salas
     })
 
-@admin_required
 def inativar_sala(request, pk):
     sala = get_object_or_404(Sala, pk=pk)
     if request.method == 'POST':
@@ -262,7 +257,6 @@ def inativar_sala(request, pk):
             messages.success(request, f'Sala "{sala.numero}" removida.')
     return redirect('administrador:listar_salas')
 
-@admin_required
 def editar_sala(request, pk):
     sala = get_object_or_404(Sala, pk=pk)
 
@@ -281,7 +275,6 @@ def editar_sala(request, pk):
     return render(request, template_name, {
         'sala': sala
     })
-@admin_required
 def criar_assento(request, sala_pk):
     sala = get_object_or_404(Sala, pk=sala_pk)
 
@@ -315,7 +308,6 @@ def criar_assento(request, sala_pk):
         'sala': sala
     })
 
-@admin_required
 def inativar_assento(request, pk):
     assento = get_object_or_404(Assento, pk=pk)
 
@@ -342,7 +334,6 @@ def inativar_assento(request, pk):
 
     return redirect('administrador:listar_salas')
 
-@admin_required
 def ativar_assento(request, pk):
     assento = get_object_or_404(Assento, pk=pk)
 
