@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseForbidden 
-from rest_framework import viewsets, permissions 
+from rest_framework import viewsets, permissions
+from rest_framework.permissions import BasePermission
 from .models import Assento
 from .serializer import AssentoSerializer
 from salas.models import Sala
@@ -10,21 +10,14 @@ class AssentoViewSet(viewsets.ModelViewSet):
     queryset = Assento.objects.all()
     serializer_class = AssentoSerializer
 
-    def get_permissions(self):
-        if self.action == 'create':
-            permission_classes = [permissions.IsAdminUser]
-        else:
-            permission_classes = [permissions.AllowAny]
-        return [permission() for permission in permission_classes]
+    authentication_classes = []
+    permission_classes = [permissions.AllowAny]
 
 def listar_assentos(request):
     assentos = Assento.objects.all()
     return render(request, 'assentos/listar.html', {'assentos': assentos})
 
 def criar_assento(request):
-    if not request.user.is_staff:
-        return HttpResponseForbidden("Acesso Negado: Apenas a administração pode criar assentos.")
-
     if request.method == 'POST':
         id_sala = request.POST.get('id_sala')
         fila = request.POST.get('fila')
