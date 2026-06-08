@@ -118,13 +118,13 @@ Usuario <|-- Admin
 
 ' Relacionamentos
 Cliente "1" -- "n" Pedido
-Pedido "1" -- "1..n" Ingresso
-Pedido "1" <--o "1" Pagamento
+Pedido "1" *-- "1..n" Ingresso
+Pedido "1" *-- "1" Pagamento
 
 Ingresso "n" -- "1" Sessao
 Ingresso "1" -- "1" Assento
 
-Sala "1" o-- "n" Assento
+Sala "1" *-- "n" Assento
 
 Admin "1" -- "n" Sessao
 
