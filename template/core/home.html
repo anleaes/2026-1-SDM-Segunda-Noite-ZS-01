@@ -27,10 +27,6 @@
                 <a href="{% url 'administrador:cadastrar' %}"><button type="button" class="btn-action">Criar conta de administrador</button></a>
             </div>
         {% endif %}
-
-        {% if token %}
-            <p class="token-box">Token da sessão: {{ token }}</p>
-        {% endif %}
     </div>
 </div>
 
